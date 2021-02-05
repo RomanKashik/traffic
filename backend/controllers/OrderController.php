@@ -140,6 +140,7 @@ class OrderController extends Controller
                         $carrier_id = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
+
                         $model->save();
                     }
 

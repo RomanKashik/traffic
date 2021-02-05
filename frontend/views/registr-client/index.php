@@ -81,6 +81,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
                 [
+                    'attribute' => 'status',
+//                    'filter'    => false,
+					'format'=> 'html',
+//					'value'=>'status',
+                    'value'     => function ($data) {
+                        return "<span class='text-success'>$data->status</span>";
+                    }
+                ],
+                [
                     'attribute' => 'created_at',
                     'filter'    => kartik\date\DatePicker::widget(
                         [

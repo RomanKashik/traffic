@@ -43,7 +43,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
     <?= $form->field($model, 'count')->textInput() ?>
 
-    <?= $form->field($model, 'status')->checkbox() ?>
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>'active'])->label(false) ?>
 
 
     <div class="form-group">

@@ -70,7 +70,7 @@ class RegistrClientController extends Controller
     /**
      * Displays a single RegistrClient model.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found

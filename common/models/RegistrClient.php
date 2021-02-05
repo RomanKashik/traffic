@@ -35,7 +35,6 @@ use yii\helpers\ArrayHelper;
 class RegistrClient extends \yii\db\ActiveRecord
 {
 
-
     public function behaviors()
     {
         return [
@@ -84,7 +83,6 @@ class RegistrClient extends \yii\db\ActiveRecord
             ],
             [['client_id', 'client_carrier_id', 'count'], 'required'],
             ['status','safe'],
-            ['status', 'compare', 'compareValue' => 1, 'message' => 'Установите флажок'],
         ];
     }
 
@@ -100,7 +98,7 @@ class RegistrClient extends \yii\db\ActiveRecord
             'client_name'       => 'Клиент',
             'client_carrier_id' => 'Перевозчик',
             'count'             => 'Кол-во мест',
-            'status'            => 'Оформлен',
+            'status'            => 'Статус',
             'created_at'        => 'Дата',
             'updated_at'        => 'Дата',
         ];

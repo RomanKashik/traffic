@@ -30,7 +30,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
             ],
         ]
     ) ?>
-	<?php /*echo $model->checkCount() ;*/?>
+
+	<?php /*echo'<pre>';var_dump($model->getClientData()) ;*/?>
 
     <?php
 /*    echo $form->field($model, 'carrier_id')->textInput()->widget(

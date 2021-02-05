@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\grid\Column;
 use yii\helpers\ArrayHelper;
+use yii\validators\Validator;
 
 
 /**
@@ -112,6 +113,7 @@ class Order extends ActiveRecord
             'updated_at'         => 'Дата обновления',
         ];
     }
+
 
 
     /* public function afterSave()
@@ -234,21 +236,14 @@ class Order extends ActiveRecord
     {
         $registrClient = RegistrClient::find()->select(
             [
-                'COUNT(order.user_id) as count_user_id,registr_client.id, registr_client.client_name,
+                'COUNT(order.user_id) as count_user_id, user_id,registr_client.id, registr_client.client_name,
          registr_client.count, registr_client.created_at '
             ]
-        )->join(
+        )->where(['registr_client.status' => 'active'])->join(
             'LEFT JOIN',
             'order',
             'order.user_id = registr_client.id'
         )->groupBy('registr_client.created_at')->asArray()->all();
-
-       /* foreach ($registrClient as $key => $item) {
-            if ($item['count'] == $item['count_user_id']) {
-                $registrClient[$key]['status'] = 'проверен';
-
-            }
-        }*/
 
         return ArrayHelper::map(
             $registrClient,
@@ -262,32 +257,56 @@ class Order extends ActiveRecord
         );
     }
 
+    /* public function checkCount()
+     {
+         $registrClient = RegistrClient::find()->select(
+             [
+                 'COUNT(order.user_id) as count_user_id,registr_client.id'
+             ]
+         )->join(
+             'LEFT JOIN',
+             'order',
+             'order.user_id = registr_client.id'
+         )->groupBy('registr_client.created_at')->asArray()->all();
 
-//    public function checkCount(){
-//
-//        $registrClient = RegistrClient::find()->select(
-//            [
-//                'COUNT(order.user_id) as count_user_id,registr_client.id, registr_client.client_name,
-//         registr_client.count, registr_client.created_at '
-//            ]
-//        )->join(
-//            'LEFT JOIN',
-//            'order',
-//            'order.user_id = registr_client.id'
-//        )->groupBy('registr_client.created_at')->asArray()->all();
-//
-//        foreach ($registrClient as $key=> $item) {
-//            if ($item['count'] == $item['count_user_id']) {
-//                 /*$registrClient[$key]['status'] = 'проверен';
-//                 return true;*/
-//                $this->status = '3';
-//                $this->save();
-//            }
-//        }
-//
-//      return false;
-//    }
 
+         if ($registrClient['count'] == $registrClient['count_user_id']) {
+             return true;
+         }
+
+         //return false;
+     }*/
+
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            Yii::$app->session->setFlash('success', 'Пиздец нахуй блядь');
+        } else {
+            $registrClient = RegistrClient::find()->select(
+                [
+                    'COUNT(order.user_id) as count_user_id,registr_client.id,registr_client.count'
+                ]
+            )->join(
+                'LEFT JOIN',
+                'order',
+                'order.user_id = registr_client.id'
+            )->groupBy('registr_client.id')->asArray()->all();
+            echo '<pre>';
+            var_dump($registrClient);
+            die();
+            foreach ($registrClient as $item){
+                if ($item['count'] == $item['count_user_id']) {
+                    $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
+                    $reg->status = 'formalized';
+                    $reg->update();
+                    Yii::$app->session->setFlash('success', 'А хуя тебе на воротник');
+                }
+            }
+
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
 
     /**
      * Получение данных перевозчика для выпадающего списка

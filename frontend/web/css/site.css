@@ -1,0 +1,255 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #F5F5F5;
+    border-top: 1px solid #DDDDDD;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #CC5555;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: "\e151";
+}
+
+a.desc:after {
+    content: "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view td {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999999;
+}
+
+.error-summary {
+    color: #A94442;
+    background: #FDF7F7;
+    border-left: 3px solid #EED3D7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    padding: 15px;
+    border: none;
+}
+
+@media (max-width: 767px) {
+    .nav li > form > button.logout {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.my-10 {
+    margin: 10px 0;
+}
+
+@media (max-width: 767px) {
+    .mt-sm-10 {
+        margin-top: 10px;
+    }
+
+    .my-sm-10 {
+        margin: 10px 0;
+    }
+}
+
+.select2-container--bootstrap .select2-selection--single .select2-selection__clear {
+    right: 2rem !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+
+@-moz-document url-prefix() {
+    fieldset {
+        display: table-cell;
+    }
+}
+
+
+.table-responsive > .table > thead > tr > th,
+.table-responsive > .table > tbody > tr > th,
+.table-responsive > .table > tfoot > tr > th,
+.table-responsive > .table > thead > tr > td,
+.table-responsive > .table > tbody > tr > td,
+.table-responsive > .table > tfoot > tr > td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+    border-top: 1px solid #ddd;
+}
+.table-order-index tr th {
+    text-align: center;
+}
+@media screen and (max-width: 992px) {
+    .scrolling table {
+        table-layout: inherit !important;
+        margin-left: -100px !important;
+        /*ie7*/
+    }
+}
+.scrolling td,
+.scrolling th {
+    vertical-align: top !important;
+    padding: 10px !important;
+    min-width: 100px !important;
+}
+
+@media screen and (max-width: 992px) {
+    .scrolling thead th:first-child,
+    .scrolling thead tr.filters td:first-child,
+    .scrolling tbody td:first-child {
+        position: absolute !important;
+        *position: relative !important;
+        /*ie7*/
+        left: 0 !important;
+        width: 150px !important;
+    }
+}
+.outer {
+    position: relative !important;
+    overflow: hidden;
+}
+@media screen and (max-width:992px) {
+    .inner {
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        margin-left: 150px !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 0;
+    }
+
+    .table-responsive > .table-bordered {
+        border: 1px solid #DDDDDD;
+    }
+}
+
+.cbalink {
+    display: none!important;
+}
+
+ol.instruction {
+    /* убираем стандартную нумерацию */
+    list-style: none;
+    /* Идентифицируем счетчик и даем ему имя li. Значение счетчика не указано - по умолчанию оно равно 0 */
+    counter-reset: li;
+}
+ol.instruction> li:before {
+    /* Определяем элемент, который будет нумероваться — li. Псевдоэлемент before указывает, что содержимое, вставляемое при помощи свойства content, будет располагаться перед пунктами списка. Здесь же устанавливается значение приращения счетчика (по умолчанию равно 1). */
+    counter-increment: li;
+    /* С помощью свойства content выводится номер пункта списка. counters() означает, что генерируемый текст представляет собой значения всех счетчиков с таким именем. Точка в кавычках добавляет разделяющую точку между цифрами, а точка с пробелом добавляется перед содержимым каждого пункта списка */
+    content: counters(li, ".") ". ";
+}

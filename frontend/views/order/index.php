@@ -25,23 +25,25 @@ $this->params['breadcrumbs'][] = $this->title;
     if (Yii::$app->user->can('permissionStock')) : ?>
 
 		<p class="text-right">
-            <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+            <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']) ?>
             <?= Html::a(
                 'Клиенты оформленные на рынке',
                 ['/registr-client/index'],
-                ['class' => 'btn btn-info btn-sm']
+                ['class' => 'btn btn-info btn-sm mt-10 mt-xs-0']
             ) ?>
+            <?php
+            if (Yii::$app->user->can('permissionAdmin')) : ?>
+				<input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
+					   id="deleteAll">
+                <?php
+                // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+            <?php
+            endif; ?>
 		</p>
     <?php
     endif; ?>
-    <?php
-    if (Yii::$app->user->can('permissionAdmin')) : ?>
-		<p class="text-right"><input type="button" class="btn btn-danger btn-sm" value="Удалить выбранные" id="deleteAll"></p>
-        <?php
-        // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php
-    endif; ?>
     <?php
     Pjax::begin() ?>
 	<div class="scrolling outer">

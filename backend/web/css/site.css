@@ -59,7 +59,7 @@ a.asc:after, a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'Glyphicons Halflings', sans-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -150,13 +150,13 @@ a.desc:after {
     margin: 10px 0;
 }
 
-@media (max-width: 767px) {
-    .mt-sm-10 {
-        margin-top: 10px;
-    }
 
-    .my-sm-10 {
-        margin: 10px 0;
+@media (min-width: 540px) {
+    .mt-xs-0 {
+        margin-top: 0;
+    }
+    .my-xs-0 {
+        margin: 0;
     }
 }
 

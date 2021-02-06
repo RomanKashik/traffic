@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 use kartik\select2\Select2;
-use wbraganca\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\RegistrClient */
@@ -43,7 +42,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
     <?= $form->field($model, 'count')->textInput() ?>
 
-    <?= $form->field($model, 'status')->hiddenInput(['value'=>'active'])->label(false) ?>
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>'Принят'])->label(false) ?>
 
 
     <div class="form-group">

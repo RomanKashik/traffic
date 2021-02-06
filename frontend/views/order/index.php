@@ -1,7 +1,6 @@
 <?php
 
 use common\behaviors\Total;
-use common\models\Order;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -76,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         ),
                     ],
-                    //'id',
+
                     [
                         'attribute' => 'user_id',
                         'value'     => function ($data) {
@@ -135,20 +134,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'height',
                     //'weight',
                     //'length',
-
-                    /*[
-                        'attribute' => 'size',
-                        'filter'    => false,
-                        'contentOptions' =>['style'=>'text-align:center;'],
-                        'footer'    => Order::getTotal($dataProvider->models, 'size').' <small>м<sup>3</sup></small>',
-                    ],*/
-                    /*[
-                        'attribute' => 'weight',
-                        'filter' => false,
-                        'contentOptions' =>['style'=>'text-align:center;'],
-                        'footer'=>Order::getTotal($dataProvider->models, 'weight'),
-                    ],*/
-
                     [
                         'attribute' => 'cost',
                         'filter'    => false,

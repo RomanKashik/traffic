@@ -3,16 +3,10 @@
 namespace common\models;
 
 use common\behaviors\Total;
-use DateTime;
-use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\data\Sort;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
-use yii\grid\Column;
 use yii\helpers\ArrayHelper;
-use yii\validators\Validator;
 
 
 /**
@@ -114,17 +108,6 @@ class Order extends ActiveRecord
         ];
     }
 
-
-
-    /* public function afterSave()
-     {
-         if (is_array($this->status)) {
-             foreach ($this->status as $statusName) {
-                 $this->status = $statusName;
-                 self::save();
-             }
-         }
-     }*/
 
     /**
      * Gets query for [[Packs]].
@@ -239,7 +222,7 @@ class Order extends ActiveRecord
                 'COUNT(order.user_id) as count_user_id, user_id,registr_client.id, registr_client.client_name,
          registr_client.count, registr_client.created_at '
             ]
-        )->where(['registr_client.status' => 'active'])->join(
+        )->where(['registr_client.status' => 'Принят'])->join(
             'LEFT JOIN',
             'order',
             'order.user_id = registr_client.id'
@@ -257,53 +240,50 @@ class Order extends ActiveRecord
         );
     }
 
-    /* public function checkCount()
-     {
-         $registrClient = RegistrClient::find()->select(
-             [
-                 'COUNT(order.user_id) as count_user_id,registr_client.id'
-             ]
-         )->join(
-             'LEFT JOIN',
-             'order',
-             'order.user_id = registr_client.id'
-         )->groupBy('registr_client.created_at')->asArray()->all();
 
-
-         if ($registrClient['count'] == $registrClient['count_user_id']) {
-             return true;
-         }
-
-         //return false;
-     }*/
-
-
+    /**
+     * Проверяем кол-ва мест с кол-вом заказов клиента
+     * Меняем status в таблице [[registr_client]]
+     *
+     * @param  bool  $insert
+     * @param  array  $changedAttributes
+     *
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            Yii::$app->session->setFlash('success', 'Пиздец нахуй блядь');
+            Yii::$app->session->setFlash('success', 'Что-то пошло не так!');
         } else {
-            $registrClient = RegistrClient::find()->select(
+            $checkCount = RegistrClient::find()->select(
                 [
-                    'COUNT(order.user_id) as count_user_id,registr_client.id,registr_client.count'
+                    'COUNT(order.user_id) as count_user_id,
+                    registr_client.id,
+                    registr_client.count,
+                    registr_client.client_name'
                 ]
             )->join(
                 'LEFT JOIN',
                 'order',
                 'order.user_id = registr_client.id'
-            )->groupBy('registr_client.id')->asArray()->all();
-            echo '<pre>';
-            var_dump($registrClient);
-            die();
-            foreach ($registrClient as $item){
-                if ($item['count'] == $item['count_user_id']) {
+            )->groupBy('order.user_id')->asArray()->all();
+
+            foreach ($checkCount as $item) {
+                if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id) {
                     $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
-                    $reg->status = 'formalized';
+                    $reg->status = 'оформлен на складе';
                     $reg->update();
-                    Yii::$app->session->setFlash('success', 'А хуя тебе на воротник');
+                    if (Yii::$app->user->can('permissionStock')) {
+                        Yii::$app->session->setFlash('success', $item['client_name'].' оформлен');
+                    }
+                } elseif (Yii::$app->user->can('permissionStock')) {
+                    Yii::$app->session->setFlash(
+                        'success',
+                        $item['client_name'].' осталось оформить мест '.($item['count'] - $item['count_user_id'])
+                    );
                 }
             }
-
         }
         parent::afterSave($insert, $changedAttributes);
     }

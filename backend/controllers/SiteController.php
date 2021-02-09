@@ -8,9 +8,6 @@ use common\models\Order;
 use Yii;
 
 use common\models\LoginForm;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use backend\controllers\AppAdmin;
 
 /**
  * Site controller
@@ -37,8 +34,8 @@ class SiteController extends AppAdmin
     public function actionIndex()
     {
         if (Yii::$app->user->can('permissionAdmin') && !Yii::$app->user->isGuest) {
-            $order        = new Order();
-            $client       = new Client();
+            $order = new Order();
+            $client = new Client();
 
             $typePackages = $order->getInfoTypePackge();
 
@@ -59,19 +56,19 @@ class SiteController extends AppAdmin
                 'index',
                 [
                     'typePackages' => $typePackages,
-                    'totalPack'    => $totalPack,
-                    'totalCost'    => $totalCost,
-                    'clients'      => $clients,
-                    'totalSize'    => $totalSize,
-                    'totalWeight'  => $totalWeight,
-                    'avgCost'      => $avgCost,
+                    'totalPack' => $totalPack,
+                    'totalCost' => $totalCost,
+                    'clients' => $clients,
+                    'totalSize' => $totalSize,
+                    'totalWeight' => $totalWeight,
+                    'avgCost' => $avgCost,
                 ]
             );
         }
         Yii::$app->user->logout();
         Yii::$app->session->setFlash('noAccess', 'У вас нет доступа к этому разделу');
 
-        return   $this->redirect('/admin/site/login') ;
+        return $this->redirect('/admin/site/login');
     }
 
     /**

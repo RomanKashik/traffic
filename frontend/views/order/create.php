@@ -1,10 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Order */
-/* @var $modelsPack frontend\models\Pack */
+/* @var $model common\models\Order */
+/* @var $modelsPack common\models\Pack */
 
 $this->title = 'Создать заказ';
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];

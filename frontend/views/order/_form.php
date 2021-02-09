@@ -1,5 +1,6 @@
 <?php
 
+use common\models\TypeOfPackage;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
@@ -8,7 +9,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 /* @var $this yii\web\View */
 /* @var $model common\models\Order */
 /* @var $modelsPack common\models\Pack */
-/* @var $type \common\models\TypeOfPackage */
+/* @var $type TypeOfPackage */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

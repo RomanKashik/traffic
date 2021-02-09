@@ -22,6 +22,9 @@ return [
             'downloadAction' => 'gridview/export/download',
 
             // other module settings
-        ]
+        ],
+        'tracking' => [
+            'class' => 'common\modules\tracking\Module',
+        ],
     ],
 ];

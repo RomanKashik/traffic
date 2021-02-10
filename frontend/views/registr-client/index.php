@@ -1,7 +1,6 @@
 <?php
 
 use common\behaviors\Total;
-use common\models\RegistrClient;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -118,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         ]
                     ),
-                    'format'    => ['date', 'dd-MM-YYYY '],
+                    'format'    => ['date', 'd-MM-Y '],
                 ],
                 //'updated_at',
 

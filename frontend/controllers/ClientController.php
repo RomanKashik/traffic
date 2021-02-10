@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use Yii;
-//use common\models\ClientRegistr;
 use common\models\Client;
 use common\models\ClientSearch;
 use yii\web\Controller;

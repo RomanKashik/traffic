@@ -47,6 +47,10 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/romanmaroder/yii2-dynamicform"
         }
     ]
 }

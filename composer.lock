@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d326d31da7ab683da6a259c02731a021",
+    "content-hash": "42969f7a52abd51ba7ae66f28273cae5",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2126,12 +2126,12 @@
             "time": "2017-01-11T14:05:47+00:00"
         },
         {
-            "name": "romanmaroder/yii2-dynamicform",
-            "version": "1.0.0",
+            "name": "romanmaroder/custom-yii2-dynamicform",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/romanmaroder/yii2-dynamicform",
-                "reference": "61b1f28678f400cd3adc36fcdf23a69d18662c00"
+                "reference": "2a31b008e40bc330182bca5e9d6a1b3f2e749966"
             },
             "require": {
                 "symfony/css-selector": "~2.8|~3.0",
@@ -2141,7 +2141,7 @@
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
-                    "romanmaroder\\dynamicform\\": "src"
+                    "romanmaroder\\dynamicform\\": "src/"
                 }
             },
             "license": [
@@ -2165,11 +2165,11 @@
                 "yii2-dynamicform"
             ],
             "support": {
-                "issues": "https://github.com/romanmaroder/yii2-dynamicform/issues",
-                "wiki": "https://github.com/romanmaroder/yii2-dynamicform/wiki/",
-                "source": "https://github.com/romanmaroder/yii2-dynamicform"
+                "issues": "https://github.com/romanmaroder/custom-yii2-dynamicform/issues",
+                "wiki": "https://github.com/romanmaroder/custom-yii2-dynamicform/wiki/",
+                "source": "https://github.com/romanmaroder/custom-yii2-dynamicform"
             },
-            "time": "2021-02-10T21:43:09+00:00"
+            "time": "2021-02-11T14:00:41+00:00"
         },
         {
             "name": "select2/select2",

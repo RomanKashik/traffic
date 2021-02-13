@@ -5,6 +5,7 @@ namespace common\models;
 use common\behaviors\Total;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -26,15 +27,15 @@ use yii\helpers\ArrayHelper;
  * @property int|null $date
  * @property int|null $date_update
  *
- * @property-read \yii\db\ActiveQuery $type
+ * @property-read ActiveQuery $type
  * @property-read array $clientData
  * @property-read int $totalCountPackages
- * @property-read \yii\db\ActiveQuery $client
- * @property-read \yii\db\ActiveQuery $clientReg
+ * @property-read ActiveQuery $client
+ * @property-read ActiveQuery $clientReg
  * @property-read array $infoTypePackge
  * @property-read array $carrierArticles
  * @property-read string $rate
- * @property-read \yii\db\ActiveQuery $carrier
+ * @property-read ActiveQuery $carrier
  * @property-read mixed $typePackage
  * @property-read string[] $status
  * @property Pack[] $packs
@@ -112,7 +113,7 @@ class Order extends ActiveRecord
     /**
      * Gets query for [[Packs]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getPacks()
     {
@@ -122,7 +123,7 @@ class Order extends ActiveRecord
     /**
      * Gets query for [[Client]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getClient()
     {
@@ -132,7 +133,7 @@ class Order extends ActiveRecord
     /**
      * Gets query for [[registr_client]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getClientReg()
     {
@@ -142,7 +143,7 @@ class Order extends ActiveRecord
     /**
      * Gets query for [[Carrier]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCarrier()
     {
@@ -152,7 +153,7 @@ class Order extends ActiveRecord
     /**
      * Gets query for [[TypeOfPackage]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getType()
     {
@@ -321,7 +322,7 @@ class Order extends ActiveRecord
     /**
      * Получение данных клиента
      *
-     * @param $column_name_like  - название столбца в таблице с каким сравнивать  [[registr_client]]
+     * @param  string $column_name_like  - название столбца в таблице с каким сравнивать  [[registr_client]]
      *
      * @param  string  $column_name  - название столбца в таблице по какому искать  [[registr_client]]
      *

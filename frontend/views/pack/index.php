@@ -1,7 +1,7 @@
 <?php
 
 use common\behaviors\Total;
-use frontend\models\Pack;
+use common\models\Pack;
 use kartik\export\ExportMenu;
 use kartik\select2\Select2;
 use yii\helpers\Html;
@@ -11,7 +11,7 @@ use kartik\select2\Select2Asset;
 
 Select2Asset::register($this);
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\PackSearch */
+/* @var $searchModel common\models\PackSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 

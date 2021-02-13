@@ -9,6 +9,7 @@ use common\models\OrderSearch;
 use common\models\Pack;
 use frontend\models\Model;
 use yii\base\Exception;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -29,8 +30,8 @@ class OrderController extends Controller
     public function behaviors()
     {
         return [
-            'verbs'  => [
-                'class'   => VerbFilter::class,
+            'verbs' => [
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -39,19 +40,19 @@ class OrderController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'allow'   => true,
+                        'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'product', 'delete'],
-                        'roles'   => ['stockman','stockmanDPR', 'admin'],
+                        'roles' => ['stockman', 'stockmanDPR', 'admin'],
                     ],
                     [
-                        'allow'   => true,
+                        'allow' => true,
                         'actions' => ['client'],
-                        'roles'   => ['manager', 'admin'],
+                        'roles' => ['manager', 'admin'],
                     ],
                     [
-                        'allow'   => true,
-                        'actions' => ['index','view'],
-                        'roles'   => ['driver'],
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['driver'],
                     ],
                 ],
 
@@ -66,15 +67,14 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
-
-        $searchModel  = new OrderSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 //        $dataProvider->pagination->pageSize = 10;
 
         return $this->render(
             'index',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
 
             ]
@@ -84,7 +84,7 @@ class OrderController extends Controller
     /**
      * Displays a single Order model.
      *
-     * @param  integer  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -94,11 +94,23 @@ class OrderController extends Controller
         $modelsPack = Pack::find()->where(['order_id' => $id])->all();
         if (!$modelsPack) {
             throw new NotFoundHttpException('Empty pack');
-        }
+        };
+
+
+        $query = Order::find()->where(['registr_client.id'=>$id])->joinWith(['clientReg'])
+            ->asArray()
+            ->all();
+
+        $dataProvider = new ArrayDataProvider(['allModels' => $query]);
+
+//        echo '<pre>';
+//        var_dump($dataProvider);
+//        die();
         return $this->render(
             'view',
             [
-                'model'      => $this->findModel($id),
+                'dataProvider'=>$dataProvider,
+                'model' => $this->findModel($id),
                 'modelsPack' => $modelsPack,
             ]
         );
@@ -112,9 +124,8 @@ class OrderController extends Controller
      */
     public function actionCreate()
     {
-        $model      = new Order();
+        $model = new Order();
         $modelsPack = [new Pack()];
-
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,7 +150,7 @@ class OrderController extends Controller
                     if ($flag = $model->save(false)) {
                         foreach ($modelsPack as $modelPack) {
                             $modelPack->order_id = $model->id;
-                            $modelPack->user_id  = $model->user_id;
+                            $modelPack->user_id = $model->user_id;
                             Yii::$app->session->setFlash('success', 'Заказ сохранен');
                             if (!($flag = $modelPack->save(false))) {
                                 $transaction->rollBack();
@@ -147,7 +158,7 @@ class OrderController extends Controller
                             }
                         }
 
-                        $client_id  = $model->user_id;
+                        $client_id = $model->user_id;
                         $carrier_id = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
@@ -162,13 +173,11 @@ class OrderController extends Controller
                     $transaction->rollBack();
                 }
             }
-
-
         } else {
             return $this->render(
                 'create',
                 [
-                    'model'      => $model,
+                    'model' => $model,
                     'modelsPack' => (empty($modelsPack)) ? [new Pack()] : $modelsPack
                 ]
             );
@@ -179,17 +188,17 @@ class OrderController extends Controller
      * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  integer  $id
+     * @param integer $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model      = $this->findModel($id);
+        $model = $this->findModel($id);
         $modelsPack = $model->packs;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $oldIDs     = ArrayHelper::map($modelsPack, 'id', 'id');
+            $oldIDs = ArrayHelper::map($modelsPack, 'id', 'id');
             $modelsPack = Model::createMultiple(Pack::class, $modelsPack);
             Model::loadMultiple($modelsPack, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsPack, 'id', 'id')));
@@ -207,13 +216,13 @@ class OrderController extends Controller
                         }
                         foreach ($modelsPack as $modelPack) {
                             $modelPack->order_id = $model->id;
-                            $modelPack->user_id  = $model->user_id;
+                            $modelPack->user_id = $model->user_id;
                             if (!($flag = $modelPack->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
                         }
-                        $client_id  = $model->user_id;
+                        $client_id = $model->user_id;
                         $carrier_id = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
@@ -233,7 +242,7 @@ class OrderController extends Controller
             return $this->render(
                 'update',
                 [
-                    'model'      => $model,
+                    'model' => $model,
                     'modelsPack' => (empty($modelsPack)) ? [new Pack] : $modelsPack
                 ]
             );
@@ -247,12 +256,12 @@ class OrderController extends Controller
      */
     public function actionClient()
     {
-        $searchModel  = new OrderSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render(
             'client',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]
         );
@@ -263,7 +272,7 @@ class OrderController extends Controller
      * Finds the Order model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return Order the loaded model
      * @throws NotFoundHttpException if the model cannot be found

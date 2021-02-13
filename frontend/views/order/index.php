@@ -12,19 +12,19 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Список заказов';
+$this->title = 'Список заказов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
 <div class="order-index">
 
-	<h3><?= Html::encode($this->title) ?></h3>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <?php
     if (Yii::$app->user->can('permissionStock')) : ?>
 
-		<p class="text-right">
+        <p class="text-right">
             <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']) ?>
             <?= Html::a(
                 'Клиенты оформленные на рынке',
@@ -33,41 +33,41 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?>
             <?php
             if (Yii::$app->user->can('permissionAdmin')) : ?>
-				<input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
-					   id="deleteAll">
+                <input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
+                       id="deleteAll">
                 <?php
                 // echo $this->render('_search', ['model' => $searchModel]); ?>
 
             <?php
             endif; ?>
-		</p>
+        </p>
     <?php
     endif; ?>
 
     <?php
     Pjax::begin() ?>
-	<div class="scrolling outer">
+    <div class="scrolling outer">
         <?= GridView::widget(
             [
-                'id'           => 'grid',
+                'id' => 'grid',
                 'dataProvider' => $dataProvider,
-                'filterModel'  => $searchModel,
+                'filterModel' => $searchModel,
 
                 'options' => [
                     'class' => 'inner table-responsive',
                 ],
 
-                'tableOptions'     => ['class' => 'table table-striped table-bordered table-condensed text-center table-order-index'],
+                'tableOptions' => ['class' => 'table table-striped table-bordered table-condensed text-center table-order-index'],
                 'headerRowOptions' => ['style' => 'text-align:center'],
 
-                'showFooter'       => true,
+                'showFooter' => true,
                 'footerRowOptions' => ['style' => 'font-weight:bold;text-decoration: underline;', 'class' => 'success'],
 
                 'columns' => [
                     //['class' => 'yii\grid\SerialColumn'],
                     [
-                        'class'           => 'yii\grid\CheckboxColumn',
-                        'visible'=>Yii::$app->user->can('permissionAdmin'),
+                        'class' => 'yii\grid\CheckboxColumn',
+                        'visible' => Yii::$app->user->can('permissionAdmin'),
                         'header' => Html::checkBox(
                             'selection_all',
                             false,
@@ -80,57 +80,58 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     [
                         'attribute' => 'user_id',
-                        'value'     => function ($data) {
+                        'value' => function ($data) {
                             return $data->clientReg->client_name;
                         },
-                        'filter'    => Select2::widget(
+                        'filter' => Select2::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'user_id',
-                                'data'          => $searchModel->getClientOrderData('client_name'),
-                                'value'         => $searchModel->clientReg->client_name,
-                                'options'       => [
-                                    'class'       => 'form-control',
+                                'model' => $searchModel,
+                                'attribute' => 'user_id',
+                                'data' => $searchModel->getClientOrderData('client_name','client_name'),
+                                'value' => $searchModel->clientReg->client_name,
+                                'options' => [
+                                    'class' => 'form-control',
                                     'placeholder' => 'По клиенту'
                                 ],
                                 'pluginOptions' => [
                                     'allowClear' => true,
+                                    'min-width' => '125px'
                                 ]
                             ]
                         ),
                     ],
                     [
                         'attribute' => 'article',
-                        'label'     => 'Артикул',
-                        'filter'    => false,
-                        'value'     => function ($data) {
+                        'label' => 'Артикул',
+                        'filter' => false,
+                        'value' => function ($data) {
                             return $data->clientReg->client_article;
                         }
                     ],
                     [
-                        'attribute'      => 'carrier_id',
-                        'label'          => 'Перевозчик',
-                        'value'          => function ($data) {
+                        'attribute' => 'carrier_id',
+                        'label' => 'Перевозчик',
+                        'value' => function ($data) {
                             return $data->clientReg->client_carrier_article;
                         },
                         'contentOptions' => ['style' => 'text-align:center;'],
-                        'filter'         => Select2::widget(
+                        'filter' => Select2::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'carrier_id',
-                                'data'          => $searchModel->getCarrierArticles(),
-                                'value'         => $searchModel->clientReg->client_carrier_article,
-                                'options'       => [
-                                    'class'       => 'form-control',
+                                'model' => $searchModel,
+                                'attribute' => 'carrier_id',
+                                'data' => $searchModel->getCarrierArticles(),
+                                'value' => $searchModel->clientReg->client_carrier_article,
+                                'options' => [
+                                    'class' => 'form-control',
                                     'placeholder' => 'Перевозчик',
                                 ],
                                 'pluginOptions' => [
                                     'allowClear' => true,
-                                    'width'      => '150px',
+                                    'width' => '150px',
                                 ]
                             ]
                         ),
-                        'footer'         => 'Итого'
+                        'footer' => 'Итого'
                     ],
                     //'width',
                     //'height',
@@ -138,31 +139,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'length',
                     [
                         'attribute' => 'cost',
-                        'filter'    => false,
-                        'footer'    => Total::getTotal($dataProvider->models, 'cost').' <small>руб</small>'
+                        'filter' => false,
+                        'footer' => Total::getTotal($dataProvider->models, 'cost') . ' <small>руб</small>'
                     ],
                     [
-                        'attribute'      => 'type_of_package_id',
+                        'attribute' => 'type_of_package_id',
                         'contentOptions' => ['style' => 'text-align:center;'],
-                        'filter'         => false,
-                        'value'          => function ($data) {
+                        'filter' => false,
+                        'value' => function ($data) {
                             return $data->type->name;
                         },
                     ],
                     [
                         'attribute' => 'city',
-                        'label'     => 'Город',
-                        'value'     => function ($data) {
+                        'label' => 'Город',
+                        'value' => function ($data) {
                             return $data->clientReg->client_city;
                         },
-                        'filter'    => Select2::widget(
+                        'filter' => Select2::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'city',
-                                'data'          => $searchModel->getClientOrderData('client_city', 'client_city'),
-                                'value'         => $searchModel->clientReg->client_city,
-                                'options'       => [
-                                    'class'       => 'form-control',
+                                'model' => $searchModel,
+                                'attribute' => 'city',
+                                'data' => $searchModel->getClientOrderData('client_city', 'client_city'),
+                                'value' => $searchModel->clientReg->client_city,
+                                'options' => [
+                                    'class' => 'form-control',
                                     'placeholder' => 'По городу'
                                 ],
                                 'pluginOptions' => [
@@ -173,18 +174,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'area',
-                        'label'     => 'Район',
-                        'value'     => function ($data) {
+                        'label' => 'Район',
+                        'value' => function ($data) {
                             return $data->clientReg->client_area;
                         },
-                        'filter'    => Select2::widget(
+                        'filter' => Select2::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'area',
-                                'data'          => $searchModel->getClientOrderData('client_area', 'client_area'),
-                                'value'         => $searchModel->clientReg->client_area,
-                                'options'       => [
-                                    'class'       => 'form-control',
+                                'model' => $searchModel,
+                                'attribute' => 'area',
+                                'data' => $searchModel->getClientOrderData('client_area', 'client_area'),
+                                'value' => $searchModel->clientReg->client_area,
+                                'options' => [
+                                    'class' => 'form-control',
                                     'placeholder' => 'По району'
                                 ],
                                 'pluginOptions' => [
@@ -195,25 +196,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'created_at',
-                        'filter'    => kartik\date\DatePicker::widget(
+                        'filter' => kartik\date\DatePicker::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'date_from',
-                                'attribute2'    => 'date_to',
-                                'type'          => kartik\date\DatePicker::TYPE_RANGE,
-                                'size'          => 'sm',
-                                'separator'     => 'по',
+                                'model' => $searchModel,
+                                'attribute' => 'date_from',
+                                'attribute2' => 'date_to',
+                                'type' => kartik\date\DatePicker::TYPE_RANGE,
+                                'size' => 'sm',
+                                'separator' => 'по',
                                 'pluginOptions' => [
                                     'todayHighlight' => true,
-                                    'weekStart'      => 1, //неделя начинается с понедельника
-                                    'autoclose'      => true,
-                                    'orientation'    => 'bottom auto',
-                                    'clearBtn'       => true,
-                                    'todayBtn'       => 'linked',
-                                    'format'         => 'dd-mm-yyyy',
+                                    'weekStart' => 1, //неделя начинается с понедельника
+                                    'autoclose' => true,
+                                    'orientation' => 'bottom auto',
+                                    'clearBtn' => true,
+                                    'todayBtn' => 'linked',
+                                    'format' => 'dd-mm-yyyy',
                                 ],
 
-                                'options'  => [
+                                'options' => [
                                     'style' => 'width:100px'
                                 ],
                                 'options2' => [
@@ -221,20 +222,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ]
                             ]
                         ),
-                        'format'    => ['date', 'dd-MM-YYYY '],
+                        'format' => ['date', 'dd-MM-Y '],
                     ],
                     [
-                        'attribute'      => 'status',
+                        'attribute' => 'status',
                         'contentOptions' => ['style' => 'text-align:center;'],
-                        'value'          => 'status',
-                        'filter'         => Select2::widget(
+                        'value' => 'status',
+                        'filter' => Select2::widget(
                             [
-                                'model'         => $searchModel,
-                                'attribute'     => 'status',
-                                'data'          => $searchModel->getStatus(),
-                                'value'         => $searchModel->status,
-                                'options'       => [
-                                    'class'       => 'form-control',
+                                'model' => $searchModel,
+                                'attribute' => 'status',
+                                'data' => $searchModel->getStatus(),
+                                'value' => $searchModel->status,
+                                'options' => [
+                                    'class' => 'form-control',
                                     'placeholder' => 'По статусу'
                                 ],
                                 'pluginOptions' => [
@@ -244,8 +245,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         ),
                     ],
                     [
-                        'class'          => 'yii\grid\ActionColumn',
-                        'template'       => '{view} {update} {delete}',
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update} {delete}',
                         'visibleButtons' => [
                             'delete' => Yii::$app->user->can('permissionAdmin'),
                             'update' => Yii::$app->user->can('permissionStock') || Yii::$app->user->can(
@@ -256,7 +257,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]
         ); ?>
-	</div>
+    </div>
     <?php
     yii\widgets\Pjax::end(); ?>
 </div>

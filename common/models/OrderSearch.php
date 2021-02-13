@@ -72,6 +72,7 @@ class OrderSearch extends Order
         $query = Order::find();
         $query->joinWith(['client']);
         $query->joinWith(['clientReg']);
+//        $query->joinWith(['packs']);
 
 
         // add conditions that should always apply here
@@ -110,8 +111,7 @@ class OrderSearch extends Order
         $query->andFilterWhere(
             [
                 'id'      => $this->id,
-                'user_id' => $this->user_id,
-
+//                'user_id' => $this->user_id,
                // 'created_at'        => $this->created_at,
                //               'updated_at' => $this->updated_at,
             ]
@@ -131,7 +131,8 @@ class OrderSearch extends Order
 //            ->andFilterWhere(['like', 'city', $this->city])
             ->andFilterWhere(['like', RegistrClient::tableName().'.client_city', $this->city])
 //            ->andFilterWhere(['like', 'area', $this->area])
-            ->andFilterWhere(['like', RegistrClient::tableName().'.client_area', $this->area]);
+            ->andFilterWhere(['like', RegistrClient::tableName().'.client_area', $this->area])
+            ->andFilterWhere(['like', RegistrClient::tableName().'.client_name', $this->user_id]);
 //            ->andFilterWhere(['like', Client::tableName().'.area', $this->area]);
         $query
             ->andFilterWhere(['>=','order.created_at', $this->date_from ? strtotime($this->date_from.' 00:00:00') :

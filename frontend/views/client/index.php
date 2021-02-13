@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'pluginOptions' => [
                                 'allowClear' => true,
-                                'min-width'  => '150px',
+                                'min-width'  => '125px',
                             ]
                         ]
                     ),

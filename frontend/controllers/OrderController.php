@@ -9,6 +9,7 @@ use common\models\OrderSearch;
 use common\models\Pack;
 use frontend\models\Model;
 use yii\base\Exception;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -97,11 +98,16 @@ class OrderController extends Controller
         };
 
 
-        $query = Order::find()->where(['registr_client.id'=>$id])->joinWith(['clientReg'])
-            ->asArray()
-            ->all();
+//        $query = Order::find()->with(['clientReg'])->where(['id'=>$id])
+//            ->asArray()
+//            ->all();
 
-        $dataProvider = new ArrayDataProvider(['allModels' => $query]);
+//        array_push($query, $modelsPack);
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => Order::find()->with('clientReg','packs')->where(['id' => $id])
+            ]
+        );
 
 //        echo '<pre>';
 //        var_dump($dataProvider);
@@ -109,7 +115,7 @@ class OrderController extends Controller
         return $this->render(
             'view',
             [
-                'dataProvider'=>$dataProvider,
+                'dataProvider' => $dataProvider,
                 'model' => $this->findModel($id),
                 'modelsPack' => $modelsPack,
             ]

@@ -26,6 +26,7 @@ common
     config/              contains shared configurations
     mail/                contains view files for e-mails
     models/              contains model classes used in both backend and frontend
+    modules/             contains modules
     tests/               contains tests for common classes    
 console
     config/              contains console configurations

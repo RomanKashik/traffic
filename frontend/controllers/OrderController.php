@@ -95,23 +95,15 @@ class OrderController extends Controller
         $modelsPack = Pack::find()->where(['order_id' => $id])->all();
         if (!$modelsPack) {
             throw new NotFoundHttpException('Empty pack');
-        };
+        }
 
 
-//        $query = Order::find()->with(['clientReg'])->where(['id'=>$id])
-//            ->asArray()
-//            ->all();
-
-//        array_push($query, $modelsPack);
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => Order::find()->with('clientReg','packs')->where(['id' => $id])
             ]
         );
 
-//        echo '<pre>';
-//        var_dump($dataProvider);
-//        die();
         return $this->render(
             'view',
             [
@@ -194,7 +186,7 @@ class OrderController extends Controller
      * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found

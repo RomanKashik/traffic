@@ -2,13 +2,13 @@
 
 namespace backend\controllers;
 
-use common\models\RegistrClient;
 use Yii;
 use common\models\Order;
 use common\models\OrderSearch;
 use common\models\Pack;
 use frontend\models\Model;
 use yii\base\Exception;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -87,9 +87,17 @@ class OrderController extends Controller
         if (!$modelsPack) {
             throw new NotFoundHttpException('Empty pack');
         }
+
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => Order::find()->with('clientReg','packs')->where(['id' => $id])
+            ]
+        );
+
         return $this->render(
             '@frontend/views/order/view',
             [
+                'dataProvider' => $dataProvider,
                 'model'      => $this->findModel($id),
                 'modelsPack' => $modelsPack,
             ]

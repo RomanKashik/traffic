@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Order;
 use common\models\RegistrClientSearch;
 use common\models\Client;
 use Yii;
@@ -167,6 +168,26 @@ class RegistrClientController extends Controller
                 'model' => $model,
             ]
         );
+    }
+
+    /**
+     * Удаление списка оформленных клиентов
+     * @return \yii\web\Response
+     *
+     */
+    public function actionMultipleDelete()
+    {
+        $id = Yii::$app->request->post('row_id_to_delete');
+
+        /*foreach ($pk as $key => $value)
+        {
+            $sql = "DELETE FROM order WHERE id = $value";
+            $query = Yii::$app->db->createCommand($sql)->execute();
+        }*/
+        RegistrClient::deleteAll(['id'=>$id]);
+
+        return $this->redirect(['index']);
+
     }
 
     /**

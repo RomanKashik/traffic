@@ -233,7 +233,7 @@ use romanmaroder\dynamicform\DynamicFormWidget;
     <?php
     if (Yii::$app->user->can('permissionStockDPR')) {
 
-        echo $form->field($model, 'status')->checkbox(['value'=>$model::STATUS_CHECKED])->label('Проверен');
+        echo $form->field($model, 'status')->checkbox(['value'=>$model::STATUS_CHECKED])->label('Готов к выдаче');
 
     }; ?>
 

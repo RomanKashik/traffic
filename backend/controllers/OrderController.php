@@ -256,21 +256,6 @@ class OrderController extends Controller
     }
 
 
-    public function actionMultipleDelete()
-    {
-        $id = Yii::$app->request->post('row_id_to_delete');
-
-        /*foreach ($pk as $key => $value)
-        {
-            $sql = "DELETE FROM order WHERE id = $value";
-            $query = Yii::$app->db->createCommand($sql)->execute();
-        }*/
-        Order::deleteAll(['id'=>$id]);
-
-        return $this->redirect(['index']);
-
-    }
-
     /**
      * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

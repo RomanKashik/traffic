@@ -20,29 +20,27 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="order-index">
 
     <h3><?= Html::encode($this->title) ?></h3>
-
-    <?php
-    if (Yii::$app->user->can('permissionStock')) : ?>
-
-        <p class="text-right">
-            <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']) ?>
-            <?= Html::a(
-                'Клиенты оформленные на рынке',
-                ['/registr-client/index'],
-                ['class' => 'btn btn-info btn-sm mt-10 mt-xs-0']
-            ) ?>
+    <div class="row mb-10">
+        <div class="col-xs-12 col-md-6">
             <?php
-            if (Yii::$app->user->can('permissionAdmin')) : ?>
-                <input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
-                       id="deleteAll">
-                <?php
-                // echo $this->render('_search', ['model' => $searchModel]); ?>
+            if (Yii::$app->user->can('permissionStock')) : ?>
 
-            <?php
-            endif; ?>
-        </p>
-    <?php
-    endif; ?>
+                <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']) ?>
+
+                <?php if (Yii::$app->user->can('stockmanDPR') || Yii::$app->user->can('permissionAdmin')) : ?>
+                    <input type="button" class="btn btn-primary btn-sm mt-10 mt-xs-0" value="Проверен"
+                           id="checkAll">
+                <?php endif; ?>
+
+                <?= Html::a(
+                    'Клиенты оформленные на рынке',
+                    ['/registr-client/index'],
+                    ['class' => 'btn btn-info btn-sm mt-10 mt-xs-0']
+                ) ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
 
     <?php
     Pjax::begin() ?>
@@ -67,15 +65,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     //['class' => 'yii\grid\SerialColumn'],
                     [
                         'class' => 'yii\grid\CheckboxColumn',
-                        'visible' => Yii::$app->user->can('permissionAdmin'),
+                        'visible' => Yii::$app->user->can('stockmanDPR'),
                         'header' => Html::checkBox(
-                            'selection_all',
+                            'check_all',
                             false,
                             [
                                 'class' => 'select-on-check-all',
-                                'label' => 'Все'
+                                'label' => 'Проверен'
                             ]
                         ),
+//                        'name' => 'check',
+                        'checkboxOptions' => [
+                            'class' => 'checkbox',
+                            'value' => $model->weight
+                        ]
+
                     ],
 
                     [
@@ -87,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'model' => $searchModel,
                                 'attribute' => 'user_id',
-                                'data' => $searchModel->getClientOrderData('client_name','client_name'),
+                                'data' => $searchModel->getClientOrderData('client_name', 'client_name'),
                                 'value' => $searchModel->clientReg->client_name,
                                 'options' => [
                                     'class' => 'form-control',
@@ -262,20 +266,24 @@ $this->params['breadcrumbs'][] = $this->title;
     yii\widgets\Pjax::end(); ?>
 </div>
 <?php
-$js = <<< JS
 
-$("#deleteAll").on('click',function(){
+
+$checkAll = <<< JS
+
+$("#checkAll").on('click',function(){
     let keys = $('#grid').yiiGridView('getSelectedRows');
-     $.ajax({
+      console.log(keys);
+   /* $.ajax({
             type: 'POST',
-            url : 'multiple-delete',
-            data : {row_id_to_delete: keys},
+            url : 'multiple-check',
+            data : {row_id_to_update: keys},
             success : function() {
               $(this).closest('tr').remove(); //or whatever html you use for displaying rows
             }
-        });
+        });*/
     });
 JS;
 
-$this->registerJs($js, $position = View::POS_READY, $key = null);
-?>​
+$this->registerJs($checkAll, $position = View::POS_READY, $key = null);
+
+?>

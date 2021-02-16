@@ -43,7 +43,7 @@ use yii\helpers\ArrayHelper;
 class Order extends ActiveRecord
 {
     public const STATUS_ISSUED = 'оформлен';
-    public const STATUS_CHECKED = 'проверен';
+    public const STATUS_CHECKED = 'готов к выдаче';
 
     protected const RATE = '20000';
 
@@ -354,7 +354,7 @@ class Order extends ActiveRecord
     {
         return [
             self::STATUS_ISSUED  => 'Оформлен',
-            self::STATUS_CHECKED => 'Проверен',
+            self::STATUS_CHECKED => 'Готов к выдаче',
         ];
     }
 

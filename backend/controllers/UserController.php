@@ -38,7 +38,7 @@ class UserController extends AppAdmin
     /**
      * Displays a single User model.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -84,7 +84,7 @@ class UserController extends AppAdmin
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -111,7 +111,7 @@ class UserController extends AppAdmin
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -127,7 +127,7 @@ class UserController extends AppAdmin
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found

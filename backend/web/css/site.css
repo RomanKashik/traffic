@@ -163,3 +163,8 @@ a.desc:after {
 .table-order-index label {
     margin-bottom: 0;
 }
+
+.select2-container--krajee .select2-selection--single .select2-selection__rendered {
+    padding: 0 15px!important;
+    margin-top: -1px;
+}

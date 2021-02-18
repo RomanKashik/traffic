@@ -67,19 +67,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yii\grid\CheckboxColumn',
                         'visible' => Yii::$app->user->can('stockmanDPR'),
                         'header' => Html::checkBox(
-                            'check_all',
+                            'selection_all',
                             false,
                             [
                                 'class' => 'select-on-check-all',
-                                'label' => 'Проверен'
+                                'label' => 'Проверен',
+
                             ]
                         ),
-//                        'name' => 'check',
-                        'checkboxOptions' => [
-                            'class' => 'checkbox',
-                            'value' => $model->weight
-                        ]
-
                     ],
 
                     [
@@ -273,14 +268,14 @@ $checkAll = <<< JS
 $("#checkAll").on('click',function(){
     let keys = $('#grid').yiiGridView('getSelectedRows');
       console.log(keys);
-   /* $.ajax({
+    $.ajax({
             type: 'POST',
             url : 'multiple-check',
             data : {row_id_to_update: keys},
             success : function() {
-              $(this).closest('tr').remove(); //or whatever html you use for displaying rows
+              // $(this).closest('tr').remove(); //or whatever html you use for displaying rows
             }
-        });*/
+        });
     });
 JS;
 

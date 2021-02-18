@@ -32,19 +32,18 @@ class OrderController extends Controller
             'verbs'  => [
                 'class'   => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST'],
-                    'multiple-delete' => ['post'],
+                    'delete'          => ['POST'],
+                    'multiple-delete' => ['POST'],
                 ],
             ],
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'allow'   => true,
+                        'allow' => true,
 //                        'actions' => ['index', 'view', 'create', 'update', 'product', 'delete','multiple-delete'],
-                        'roles'   => ['admin'],
+                        'roles' => ['admin'],
                     ],
-
                 ],
 
             ],
@@ -58,7 +57,6 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
-
         $searchModel  = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 //        $dataProvider->pagination->pageSize = 10;
@@ -90,7 +88,7 @@ class OrderController extends Controller
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => Order::find()->with('clientReg','packs')->where(['id' => $id])
+                'query' => Order::find()->with('clientReg', 'packs')->where(['id' => $id])
             ]
         );
 
@@ -98,8 +96,8 @@ class OrderController extends Controller
             '@frontend/views/order/view',
             [
                 'dataProvider' => $dataProvider,
-                'model'      => $this->findModel($id),
-                'modelsPack' => $modelsPack,
+                'model'        => $this->findModel($id),
+                'modelsPack'   => $modelsPack,
             ]
         );
     }
@@ -144,12 +142,14 @@ class OrderController extends Controller
                                 break;
                             }
                         }
-                        $client_id  = $model->user_id;
-                        $carrier_id = $model->getCarrierId($client_id);
+
+                        $client_id         = $model->user_id;
+                        $carrier_id        = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
-
-                        $model->save();
+                        foreach ($model->status as $model->status) {
+                            $model->save();
+                        }
                     }
 
                     if ($flag) {
@@ -211,12 +211,14 @@ class OrderController extends Controller
                             }
                         }
 
-                        $client_id  = $model->user_id;
-                        $carrier_id = $model->getCarrierId($client_id);
+
+                        $client_id         = $model->user_id;
+                        $carrier_id        = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
-                        $model->save();
-
+                        foreach ($model->status as $model->status) {
+                            $model->save();
+                        }
                     }
                     if ($flag) {
                         $transaction->commit();
@@ -255,6 +257,18 @@ class OrderController extends Controller
         );
     }
 
+    /**
+     * Обновление статусов у выбранных клиентов
+     *
+     * @return \yii\web\Response
+     */
+    public function actionMultipleCheck()
+    {
+        $id = Yii::$app->request->post('row_id_to_update');
+        Order::updateAll(['status' => 'готов к выдаче'], ['id' =>$id]);
+        Yii::$app->session->setFlash('info', 'Статус обновлен');
+        return $this->redirect(['index']);
+    }
 
     /**
      * Deletes an existing Order model.

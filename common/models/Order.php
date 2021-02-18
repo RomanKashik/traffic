@@ -80,7 +80,8 @@ class Order extends ActiveRecord
         return [
             [['user_id', 'type_of_package_id', 'width', 'height', 'length'], 'double'],
             [['size', 'cost'], 'double'],
-            [['weight', 'notes', 'created_at', 'updated_at', 'total', 'carrier_id', 'client_id', 'status'], 'safe'],
+            [['weight', 'notes', 'created_at', 'updated_at', 'total', 'carrier_id', 'client_id'], 'safe'],
+            [['status'], 'required', 'message' => 'Отметьте статус заказа'],
             [['notes'], 'string'],
             [['user_id', 'type_of_package_id', 'width', 'height', 'weight', 'length', 'size', 'cost'], 'required'],
         ];
@@ -260,6 +261,7 @@ class Order extends ActiveRecord
             $checkCount = RegistrClient::find()->select(
                 [
                     'COUNT(order.user_id) as count_user_id,
+                    order.status as status,
                     registr_client.id,
                     registr_client.count,
                     registr_client.client_name'
@@ -269,7 +271,9 @@ class Order extends ActiveRecord
                 'order',
                 'order.user_id = registr_client.id'
             )->groupBy('order.user_id')->asArray()->all();
-
+            /*echo '<pre>';
+            var_dump($checkCount);
+            die();*/
             foreach ($checkCount as $item) {
                 if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id) {
                     $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
@@ -283,6 +287,13 @@ class Order extends ActiveRecord
                         'success',
                         $item['client_name'].' осталось оформить мест '.($item['count'] - $item['count_user_id'])
                     );
+                }
+
+                //TODO ПРОВЕРИТЬ!!!!!
+                if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id && $item['status'] === 'готов к выдаче') {
+                    $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
+                    $reg->status = 'готов к выдаче';
+                    $reg->update();
                 }
             }
         }
@@ -322,7 +333,7 @@ class Order extends ActiveRecord
     /**
      * Получение данных клиента
      *
-     * @param  string $column_name_like  - название столбца в таблице с каким сравнивать  [[registr_client]]
+     * @param  string  $column_name_like  - название столбца в таблице с каким сравнивать  [[registr_client]]
      *
      * @param  string  $column_name  - название столбца в таблице по какому искать  [[registr_client]]
      *
@@ -352,10 +363,24 @@ class Order extends ActiveRecord
      */
     public function getStatus()
     {
-        return [
-            self::STATUS_ISSUED  => 'Оформлен',
-            self::STATUS_CHECKED => 'Готов к выдаче',
-        ];
+        $status = [];
+        if (Yii::$app->user->can('permissionAdmin')) {
+            return $status = [
+                self::STATUS_ISSUED  => 'Оформлен',
+                self::STATUS_CHECKED => 'Готов к выдаче',
+            ];
+        }
+
+        if (Yii::$app->user->can('permissionStockDPR')) {
+            return $status = [
+                self::STATUS_CHECKED => 'Готов к выдаче',
+            ];
+        }
+        if (Yii::$app->user->can('permissionStock')) {
+            return $status = [
+                self::STATUS_ISSUED => 'Оформлен'
+            ];
+        }
     }
 
     /**

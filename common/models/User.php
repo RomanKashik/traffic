@@ -13,30 +13,30 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
  * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property int $status
+ * @property int $created_at
+ * @property int $updated_at
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
+    public const STATUS_DELETED = 0;
+    public const STATUS_INACTIVE = 9;
+    public const STATUS_ACTIVE = 10;
 
-    const ROLE_ADMIN = 'admin';
-    const ROLE_MANAGER = 'manager';
-    const ROLE_MARKET = 'market';
-    const ROLE_STOCKMAN = 'stockman';
-    const ROLE_STOCKMANDPR = 'stockmanDPR';
-    const ROLE_DRIVER = 'driver';
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_MANAGER = 'manager';
+    public const ROLE_MARKET = 'market';
+    public const ROLE_STOCKMAN = 'stockman';
+    public const ROLE_STOCKMANDPR = 'stockmanDPR';
+    public const ROLE_DRIVER = 'driver';
 
     public $roles;
     public $password;
@@ -253,6 +253,8 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates password hash from password and sets it to the model
      *
      * @param  string  $password
+     *
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {

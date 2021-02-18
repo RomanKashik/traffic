@@ -18,37 +18,26 @@ use romanmaroder\dynamicform\DynamicFormWidget;
     <?php
     $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
-    <?php
-    echo $form->field($model, 'user_id')->textInput()->widget(
-        Select2::class,
-        [
-            'name'          => 'client',
-            'language'      => 'ru',
-            'data'          => $model->getClientData(),
-            'options'       => ['placeholder' => 'Выберите клиента ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]
-    ) ?>
-
-	<?php /*echo'<pre>';var_dump($model->getClientData()) ;*/?>
 
     <?php
-/*    echo $form->field($model, 'carrier_id')->textInput()->widget(
-           Select2::class,
-           [
-               'name'          => 'carrier_id',
-               'language'      => 'ru',
-               'data'          => $model->checkCount(),
-               'options'       => ['placeholder' => 'Выберите артикул ...'],
-               'pluginOptions' => [
-                   'allowClear' => true
-               ],
-           ]
-       )  */?>
+    if ($model->isNewRecord) : ?>
 
+        <?php
+        echo $form->field($model, 'user_id')->textInput()->widget(
+            Select2::class,
+            [
+                'name'          => 'client',
+                'language'      => 'ru',
+                'data'          => $model->getClientData(),
+                'options'       => ['placeholder' => 'Выберите клиента ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        ) ?>
 
+    <?php
+    endif; ?>
 
     <?php
     echo $form->field($model, 'type_of_package_id')->textInput(['maxlength' => true])->widget(
@@ -115,14 +104,6 @@ use romanmaroder\dynamicform\DynamicFormWidget;
     (
         'Стоимость (<small>руб</small>)'
     ) ?>
-
-    <?
-    /*= $form->field($model, 'date')->textInput() */ ?>
-
-
-    <?
-    /*= $form->field($model, 'date_update')->textInput() */ ?>
-
 
 	<div class="row">
 		<!--		<div class="panel panel-default">-->
@@ -230,16 +211,11 @@ use romanmaroder\dynamicform\DynamicFormWidget;
 
     <?php
     echo $form->field($model, 'notes')->textarea(['placeholder' => 'Примечания', 'style' => 'resize:vertical']); ?>
+
+
     <?php
-    if (Yii::$app->user->can('permissionStockDPR')) {
+    echo $form->field($model, 'status')->checkboxList($model->getStatus()); ?>
 
-        echo $form->field($model, 'status')->checkbox(['value'=>$model::STATUS_CHECKED])->label('Готов к выдаче');
-
-    }; ?>
-
-	<?php    if (Yii::$app->user->can('permissionStock')) {
-        echo $form->field($model, 'status')->checkbox(['value'=>$model::STATUS_ISSUED])->label('Оформлен');
-	} ;?>
 
 	<div class="form-group">
         <?php

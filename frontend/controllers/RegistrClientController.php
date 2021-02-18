@@ -133,7 +133,7 @@ class RegistrClientController extends Controller
      * Updates an existing RegistrClient model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -174,7 +174,7 @@ class RegistrClientController extends Controller
      * Finds the RegistrClient model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return RegistrClient the loaded model
      * @throws NotFoundHttpException if the model cannot be found

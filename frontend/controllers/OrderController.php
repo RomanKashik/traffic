@@ -10,7 +10,6 @@ use common\models\Pack;
 use frontend\models\Model;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -46,7 +45,7 @@ class OrderController extends Controller
                         'roles'   => ['stockman', 'stockmanDPR', 'admin'],
                     ],
                     [
-                       'allow'   => true,
+                        'allow'   => true,
                         'actions' => ['multiple-check'],
                         'roles'   => ['stockmanDPR', 'admin'],
                     ],
@@ -240,6 +239,9 @@ class OrderController extends Controller
                         foreach ($model->status as $model->status) {
                             $model->save();
                         }
+                        if (Yii::$app->user->can('permissionStockDPR')) {
+                            self::checkStatus();
+                        }
                     }
 //                    $model->status = implode(', ',$model->status);
 
@@ -282,15 +284,44 @@ class OrderController extends Controller
 
     /**
      * Обновление статусов у выбранных клиентов
+     *
      * @return \yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionMultipleCheck (){
+    public function actionMultipleCheck()
+    {
+        $ids = Yii::$app->request->post('row_id_to_update');
+        Order::updateAll(['status' => 'готов к выдаче'], ['id' => $ids]);
 
-        $id = Yii::$app->request->post('row_id_to_update');
-        Order::updateAll(['status' => 'готов к выдаче'], ['id' =>$id]);
-        Yii::$app->session->setFlash('info','Статус обновлен');
+        self::checkStatus();
+        Yii::$app->session->setFlash('info', 'Статус обновлен');
 
         return $this->redirect(['index']);
+    }
+
+    public static function checkStatus()
+    {
+        $status = Order::find()->select(
+            ['order.status, user_id, COUNT(*) AS order_count, registr_client.count,registr_client.id']
+        )
+            ->join(
+                'LEFT JOIN',
+                'registr_client',
+                'registr_client.id = order.user_id'
+            )->groupBy(
+                'order.status, user_id'
+            )->having(
+                'order_count >= 1'
+            )->asArray()->all();
+
+        foreach ($status as $item) {
+            if ($item['count'] == $item['order_count']) {
+                $reg         = RegistrClient::find()->where(['id' => $item['id']])->one();
+                $reg->status = 'Готов к выдаче';
+                $reg->update();
+            }
+        }
     }
 
     /**

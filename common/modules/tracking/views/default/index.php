@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\MaskedInput;
 use yii\widgets\Pjax;
 
 ?>
 
 <div class="form-group">
-    Введите свой артикул и номер телефона для просмотра статусов звказов.
+    Введите свой артикул и номер телефона для просмотра статуса заказа.
 </div>
 
 <div class="col">
@@ -20,7 +19,6 @@ use yii\widgets\Pjax;
         <?php echo Html::input('text', 'article', '', ['class' => 'form-control', 'required' => true]) ?>
 
         <?php echo Html::label('Телефон') ?>
-
         <?php echo MaskedInput::widget(
             [
                 'name' => 'phone',

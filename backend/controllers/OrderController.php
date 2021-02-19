@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\RegistrClient;
 use Yii;
 use common\models\Order;
 use common\models\OrderSearch;
@@ -211,13 +212,15 @@ class OrderController extends Controller
                             }
                         }
 
-
                         $client_id         = $model->user_id;
                         $carrier_id        = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
                         foreach ($model->status as $model->status) {
                             $model->save();
+                        }
+                        if (Yii::$app->user->can('permissionStockDPR')) {
+                            self::checkStatus();
                         }
                     }
                     if ($flag) {
@@ -261,13 +264,44 @@ class OrderController extends Controller
      * Обновление статусов у выбранных клиентов
      *
      * @return \yii\web\Response
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionMultipleCheck()
     {
         $id = Yii::$app->request->post('row_id_to_update');
         Order::updateAll(['status' => 'готов к выдаче'], ['id' =>$id]);
+
+
+        self::checkStatus();
+
         Yii::$app->session->setFlash('info', 'Статус обновлен');
+
+
+
         return $this->redirect(['index']);
+    }
+
+    public static function checkStatus (){
+        $status = Order::find()->select(['order.status, user_id, COUNT(*) AS order_count, registr_client.count,registr_client.id'])
+            ->join(
+                'LEFT JOIN',
+                'registr_client',
+                'registr_client.id = order.user_id'
+            )->groupBy(
+                'order.status, user_id'
+            )->having(
+                'order_count >= 1'
+            )->asArray()->all();
+
+        foreach ($status as $item) {
+            if ($item['count'] == $item['order_count']) {
+                $reg         = RegistrClient::find()->where(['id' => $item['id']])->one();
+                $reg->status = 'Готов к выдаче';
+                $reg->update();
+            }
+
+        }
     }
 
     /**

@@ -261,7 +261,7 @@ class Order extends ActiveRecord
             $checkCount = RegistrClient::find()->select(
                 [
                     'COUNT(order.user_id) as count_user_id,
-                    order.status as status,
+                    order.status,
                     registr_client.id,
                     registr_client.count,
                     registr_client.client_name'
@@ -271,9 +271,8 @@ class Order extends ActiveRecord
                 'order',
                 'order.user_id = registr_client.id'
             )->groupBy('order.user_id')->asArray()->all();
-            /*echo '<pre>';
-            var_dump($checkCount);
-            die();*/
+
+
             foreach ($checkCount as $item) {
                 if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id) {
                     $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
@@ -287,13 +286,6 @@ class Order extends ActiveRecord
                         'success',
                         $item['client_name'].' осталось оформить мест '.($item['count'] - $item['count_user_id'])
                     );
-                }
-
-                //TODO ПРОВЕРИТЬ!!!!!
-                if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id && $item['status'] === 'готов к выдаче') {
-                    $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
-                    $reg->status = 'готов к выдаче';
-                    $reg->update();
                 }
             }
         }
@@ -357,13 +349,13 @@ class Order extends ActiveRecord
     }
 
     /**
-     * Получить статус заказа
+     * Получить статус заказа по роли
      *
      * @return string[]
      */
     public function getStatus()
     {
-        $status = [];
+
         if (Yii::$app->user->can('permissionAdmin')) {
             return $status = [
                 self::STATUS_ISSUED  => 'Оформлен',
@@ -381,6 +373,21 @@ class Order extends ActiveRecord
                 self::STATUS_ISSUED => 'Оформлен'
             ];
         }
+        return null;
+    }
+
+    /**
+     * Выбор статуса заказа
+     *
+     * @return string[]
+     */
+
+    public function getStatuses()
+    {
+        return $status = [
+            self::STATUS_ISSUED  => 'Оформлен',
+            self::STATUS_CHECKED => 'Готов к выдаче',
+        ];
     }
 
     /**

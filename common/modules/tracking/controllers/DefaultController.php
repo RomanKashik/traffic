@@ -15,14 +15,17 @@ class DefaultController extends Controller
 {
     /**
      * Форма поиска заказов клиентов по артикулу и номеру телефона
+     *
      * @return string
      */
     public function actionIndex()
     {
         if (Yii::$app->request->post()) {
             $user = Client::find()
-                ->where('article=:article',[':article' => Yii::$app->request->post('article')])
-                ->andWhere( 'phone=:phone',[':phone' => Yii::$app->request->post('phone')]
+                ->where('article=:article', [':article' => Yii::$app->request->post('article')])
+                ->andWhere(
+                    'phone=:phone',
+                    [':phone' => Yii::$app->request->post('phone')]
 
                 )->asArray()->one();
 

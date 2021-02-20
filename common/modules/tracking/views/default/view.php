@@ -56,10 +56,17 @@ $this->title                   = $dataProvider->allModels[0]['client_name'];
 
 			</div>
 		</div>
+
 		<div class="col">
             <?php
             echo Html::a('Назад', ['default/index'], ['class' => 'btn btn-success btn-sm']) ?>
 		</div>
+        <div class="col">
+            <h3>Статусы заказов</h3>
+            <p><b class="text-success">Принят</b> - груз принят для оформления на складе в г.Ростов </p>
+            <p><b class="text-success">Оформлен на складе</b> - груз оформлен на складе г.Ростов </p>
+            <p><b class="text-success">Готов к выдаче</b> - груз готов к выдаче на складе г.Донецк </p>
+        </div>
 	</div>
 
 </div>

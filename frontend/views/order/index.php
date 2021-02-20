@@ -69,7 +69,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     //['class' => 'yii\grid\SerialColumn'],
                     [
                         'class'   => 'yii\grid\CheckboxColumn',
-                        'visible' => Yii::$app->user->can('stockmanDPR'),
+                            'visible' =>  Yii::$app->user->can('stockmanDPR'),
+
                         'header'  => Html::checkBox(
                             'selection_all',
                             false,

@@ -1,7 +1,9 @@
 <?php
 use yii\helpers\Html;
 use backend\controllers\SiteController;
-/* @var $this \yii\web\View */
+use yii\web\View;
+
+/* @var $this View */
 /* @var $content string */
 ?>
 

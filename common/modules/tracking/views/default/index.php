@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 ?>
 
 <div class="form-group">
-    Введите свой артикул и номер телефона для просмотра статуса заказа.
+    Введите свой <span class="text-info">артикул</span> и <span class="text-info">номер телефона</span> для просмотра статуса заказа.
 </div>
 
 <div class="col">
@@ -16,7 +16,7 @@ use yii\widgets\Pjax;
     <div class="form-group">
 
         <?php echo Html::label('Артикул') ?>
-        <?php echo Html::input('text', 'article', '', ['class' => 'form-control', 'required' => true]) ?>
+        <?php echo Html::input('text', 'article', '', ['class' => 'form-control', 'required' => true,'placeholder'=>'Пример артикула: Д-1']) ?>
 
         <?php echo Html::label('Телефон') ?>
         <?php echo MaskedInput::widget(

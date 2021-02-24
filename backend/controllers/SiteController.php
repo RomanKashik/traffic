@@ -5,6 +5,7 @@ namespace backend\controllers;
 
 use common\models\Client;
 use common\models\Order;
+use common\models\User;
 use Yii;
 
 use common\models\LoginForm;
@@ -33,42 +34,36 @@ class SiteController extends AppAdmin
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->can('permissionAdmin') && !Yii::$app->user->isGuest) {
-            $order = new Order();
-            $client = new Client();
+        $order = new Order();
+        $client = new Client();
 
-            $typePackages = $order->getInfoTypePackge();
+        $typePackages = $order->getInfoTypePackge();
 
-            $totalPack = $order->getTotalCountPackages();
+        $totalPack = $order->getTotalCountPackages();
 
-            $totalCost = $order->getTotalValue('sum', 'cost');
+        $totalCost = $order->getTotalValue('sum', 'cost');
 
-            $totalSize = $order->getTotalValue('sum', 'size');
+        $totalSize = $order->getTotalValue('sum', 'size');
 
-            $totalWeight = $order->getTotalValue('sum', 'weight');
+        $totalWeight = $order->getTotalValue('sum', 'weight');
 
-            $avgCost = $order->getTotalValue('average', 'cost');
+        $avgCost = $order->getTotalValue('average', 'cost');
 
-            $clients = $client->getCountClient();
+        $clients = $client->getCountClient();
 
 
-            return $this->render(
-                'index',
-                [
-                    'typePackages' => $typePackages,
-                    'totalPack' => $totalPack,
-                    'totalCost' => $totalCost,
-                    'clients' => $clients,
-                    'totalSize' => $totalSize,
-                    'totalWeight' => $totalWeight,
-                    'avgCost' => $avgCost,
-                ]
-            );
-        }
-        Yii::$app->user->logout();
-        Yii::$app->session->setFlash('noAccess', 'У вас нет доступа к этому разделу');
-
-        return $this->redirect('/admin/site/login');
+        return $this->render(
+            'index',
+            [
+                'typePackages' => $typePackages,
+                'totalPack' => $totalPack,
+                'totalCost' => $totalCost,
+                'clients' => $clients,
+                'totalSize' => $totalSize,
+                'totalWeight' => $totalWeight,
+                'avgCost' => $avgCost,
+            ]
+        );
     }
 
     /**
@@ -76,28 +71,30 @@ class SiteController extends AppAdmin
      *
      * @return string
      */
+
     public function actionLogin()
     {
         $this->layout = 'main-login';
-
         $model = new LoginForm();
-
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        $model->password = ''; // перенести в метод rules формы, как default
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
 
-            return $this->render(
-                'login',
-                [
-                    'model' => $model,
-                ]
-            );
+            $user = User::findOne(['username' => $model->username]);
+
+            if (Yii::$app->getAuthManager()->checkAccess($user->getId(), 'permissionAdmin')) {
+                return $this->goHome();
+            }
+
+            Yii::$app->session->setFlash('noAccess', 'У вас нет доступа к этому разделу');
+            return $this->refresh();
         }
+        return $this->render(
+            'login',
+            [
+                'model' => $model
+            ]
+        );
     }
 
     /**

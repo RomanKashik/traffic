@@ -165,11 +165,12 @@ class RegistrClient extends \yii\db\ActiveRecord
      */
     public function getClientInfo($client_id)
     {
-        $id = $this::find()->select('client_id')->where(['id'=>$client_id]);
         if ($this->isNewRecord) {
-            return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$client_id])->asArray()
+            return Client::find()->select(['name','article','city','area','phone'])->where('id=:id',[':id'=>$client_id])->asArray()
                 ->one();
         }
+        $id = $this::find()->select('client_id')->where('id=:id',[':id'=>$client_id]);
+
         return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$id])->asArray()
             ->one();
     }

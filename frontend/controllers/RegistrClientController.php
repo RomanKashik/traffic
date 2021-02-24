@@ -23,8 +23,8 @@ class RegistrClientController extends Controller
     public function behaviors()
     {
         return [
-            'verbs'  => [
-                'class'   => VerbFilter::class,
+            'verbs' => [
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -38,9 +38,9 @@ class RegistrClientController extends Controller
                         'roles' => ['market', 'admin'],
                     ],
                     [
-                        'allow'   => true,
+                        'allow' => true,
                         'actions' => ['index'],
-                        'roles'   => ['stockman'],
+                        'roles' => ['stockman'],
                     ],
                 ],
 
@@ -55,13 +55,13 @@ class RegistrClientController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel  = new RegistrClientSearch();
+        $searchModel = new RegistrClientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
             'index',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]
         );
@@ -70,7 +70,7 @@ class RegistrClientController extends Controller
     /**
      * Displays a single RegistrClient model.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -102,11 +102,11 @@ class RegistrClientController extends Controller
 //            Получаем о нем данные и сохраняем
             $client = $model->getClientInfo($client_id);
 
-            $model->client_name    = $client['name'];
+            $model->client_name = $client['name'];
             $model->client_article = $client['article'];
-            $model->client_phone   = $client['phone'];
-            $model->client_city    = $client['city'];
-            $model->client_area    = $client['area'];
+            $model->client_phone = $client['phone'];
+            $model->client_city = $client['city'];
+            $model->client_area = $client['area'];
 
 //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
@@ -114,8 +114,8 @@ class RegistrClientController extends Controller
             $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
-            $model->client_carrier_name    = $carrier['name'];
-            $model->client_carrier_phone   = $carrier['phone'];
+            $model->client_carrier_name = $carrier['name'];
+            $model->client_carrier_phone = $carrier['phone'];
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -133,20 +133,19 @@ class RegistrClientController extends Controller
      * Updates an existing RegistrClient model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model  = $this->findModel($id);
+        $model = $this->findModel($id);
         $client = $model->getClientInfo($id);
-
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->client_phone = $client['phone'];
-            $model->client_city  = $client['city'];
-            $model->client_area  = $client['area'];
+            $model->client_city = $client['city'];
+            $model->client_area = $client['area'];
 
 
             //            Получаем  id выбранного перевозчика
@@ -155,8 +154,8 @@ class RegistrClientController extends Controller
             $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
-            $model->client_carrier_name    = $carrier['name'];
-            $model->client_carrier_phone   = $carrier['phone'];
+            $model->client_carrier_name = $carrier['name'];
+            $model->client_carrier_phone = $carrier['phone'];
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -174,7 +173,7 @@ class RegistrClientController extends Controller
      * Finds the RegistrClient model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return RegistrClient the loaded model
      * @throws NotFoundHttpException if the model cannot be found

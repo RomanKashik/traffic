@@ -48,7 +48,7 @@ $this->title                   = $dataProvider->allModels[0]['client_name'];
                             [
                                 'attribute' => 'Дата',
                                 'value'     => 'created_at',
-                                'format'    => ['date', 'php:d-m-Y '],
+                                'format'    => ['date', 'php:d-m-Y H:i:s'],
                             ]
                         ]
                     ]

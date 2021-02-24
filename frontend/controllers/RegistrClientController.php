@@ -98,9 +98,9 @@ class RegistrClientController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 //            Получаем  id выбранного клиента
-            $client_id  = $model->client_id;
+            $client_id = $model->client_id;
 //            Получаем о нем данные и сохраняем
-            $client     = $model->getClientInfo($client_id);
+            $client = $model->getClientInfo($client_id);
 
             $model->client_name    = $client['name'];
             $model->client_article = $client['article'];
@@ -111,11 +111,11 @@ class RegistrClientController extends Controller
 //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
 //            Получаем о нем данные и сохраняем
-            $carrier    = $model->getCarrierInfo($carrier_id);
+            $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
-            $model->client_carrier_name = $carrier['name'];
-            $model->client_carrier_phone = $carrier['phone'];
+            $model->client_carrier_name    = $carrier['name'];
+            $model->client_carrier_phone   = $carrier['phone'];
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -141,22 +141,22 @@ class RegistrClientController extends Controller
     public function actionUpdate($id)
     {
         $model  = $this->findModel($id);
-       $client = $model->getClientInfo($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $client = $model->getClientInfo($id);
 
-               $model->client_phone = $client['phone'];
-                $model->client_city  = $client['city'];
-                $model->client_area  = $client['area'];
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->client_phone = $client['phone'];
+            $model->client_city  = $client['city'];
+            $model->client_area  = $client['area'];
 
 
             //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
 //            Получаем о нем данные и сохраняем
-            $carrier    = $model->getCarrierInfo($carrier_id);
+            $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
-            $model->client_carrier_name = $carrier['name'];
-            $model->client_carrier_phone = $carrier['phone'];
+            $model->client_carrier_name    = $carrier['name'];
+            $model->client_carrier_phone   = $carrier['phone'];
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }

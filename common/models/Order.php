@@ -367,13 +367,12 @@ class Order extends ActiveRecord
             return $status = [
                 self::STATUS_CHECKED => 'Готов к выдаче',
             ];
-        }
-        if (Yii::$app->user->can('permissionStock')) {
+        }else {
             return $status = [
                 self::STATUS_ISSUED => 'Оформлен'
             ];
         }
-        return null;
+
     }
 
     /**

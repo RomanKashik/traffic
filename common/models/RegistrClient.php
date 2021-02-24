@@ -114,7 +114,7 @@ class RegistrClient extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Client::class, ['id' => 'client_id']);
     }
-//TODO (Проверить все)
+
     public function getOrder()
     {
         return $this->hasMany(Order::class, ['user_id' => 'client_id']);
@@ -165,7 +165,12 @@ class RegistrClient extends \yii\db\ActiveRecord
      */
     public function getClientInfo($client_id)
     {
-        return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$client_id])->asArray()
+        $id = $this::find()->select('client_id')->where(['id'=>$client_id]);
+        if ($this->isNewRecord) {
+            return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$client_id])->asArray()
+                ->one();
+        }
+        return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$id])->asArray()
             ->one();
     }
 

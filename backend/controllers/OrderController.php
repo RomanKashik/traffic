@@ -282,6 +282,11 @@ class OrderController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Обновление статуса зарегистрированного клиента (финальная проверка)
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public static function checkStatus (){
         $status = Order::find()->select(['order.status, user_id, COUNT(*) AS order_count, registr_client.count,registr_client.id'])
             ->join(

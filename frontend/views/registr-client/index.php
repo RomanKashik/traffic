@@ -115,7 +115,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'type' => kartik\date\DatePicker::TYPE_RANGE,
                                 'separator' => 'по',
                                 'size' => 'sm',
-
                                 'pluginOptions' => [
                                     'todayHighlight' => true,
                                     'weekStart' => 1, //неделя начинается с понедельника
@@ -141,7 +140,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'visible' => Yii::$app->user->can('permissionMarket'),
-                        'visibleButtons' => ['delete' => Yii::$app->user->can('permissionAdmin')],
+                        'visibleButtons' => [
+                        		'delete' => Yii::$app->user->can('permissionAdmin'),
+							'update'=>function ($model) {
+                                return $model->status !== 'Готов к выдаче';
+                            }
+						],
                     ],
                 ],
             ]

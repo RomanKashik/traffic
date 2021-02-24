@@ -254,7 +254,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'visibleButtons' => [
                             'delete' => Yii::$app->user->can('permissionAdmin'),
 							'update'=>function ($model) {
-                                return $model->status !== 'готов к выдаче' || Yii::$app->user->can(
+                                return $model->status !== 'готов к выдаче' ||
+									Yii::$app->user->can(
                                         'permissionAdmin');
                             }
                         ],

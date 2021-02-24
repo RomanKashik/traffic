@@ -10,7 +10,9 @@ body {
     padding: 0 0 60px;
 }
 
-.wrap > .container {
+.wrap > .container,
+.wrap > .container-fluid
+{
     padding: 70px 15px 20px;
 }
 
@@ -256,3 +258,12 @@ ol.instruction> li:before {
 .select2-container--krajee .select2-selection--single .select2-selection__rendered {
     padding: 0 15px!important;
 }
+
+
+@media (min-width: 768px)
+{
+    .navbar-right {
+        margin-right: 0;
+    }
+}
+

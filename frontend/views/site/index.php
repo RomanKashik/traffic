@@ -4,10 +4,6 @@
 
 /* @var $searchModel common\models\OrderSearch */
 
-use common\models\Order;
-use yii\console\widgets\Table;
-use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
 use yii\helpers\Html;
 
 

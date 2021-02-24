@@ -27,8 +27,7 @@ class DefaultController extends Controller
                     'phone=:phone',
                     [':phone' => Yii::$app->request->post('phone')]
 
-                )->asArray()->one();
-
+                )->asArray()->all();
 
             if (!$user) {
                 Yii::$app->session->setFlash('danger', 'Неправильный артикул или номер телефона');
@@ -43,7 +42,7 @@ class DefaultController extends Controller
                 ->andWhere(
                     'client_phone=:client_phone',
                     [':client_phone' => Yii::$app->request->post('phone')]
-                )->groupBy('client_article')->asArray()->all();
+                )->asArray()->all();
 
             $dataProvider = new ArrayDataProvider(['allModels' => $model]);
 

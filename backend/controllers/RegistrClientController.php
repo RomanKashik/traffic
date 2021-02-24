@@ -24,8 +24,8 @@ class RegistrClientController extends Controller
     public function behaviors()
     {
         return [
-            'verbs'  => [
-                'class'   => VerbFilter::class,
+            'verbs' => [
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -39,9 +39,9 @@ class RegistrClientController extends Controller
                         'roles' => ['market', 'admin'],
                     ],
                     [
-                        'allow'   => true,
+                        'allow' => true,
                         'actions' => ['index'],
-                        'roles'   => ['stockman'],
+                        'roles' => ['stockman'],
                     ],
                 ],
 
@@ -56,13 +56,13 @@ class RegistrClientController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel  = new RegistrClientSearch();
+        $searchModel = new RegistrClientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
             '@frontend/views/registr-client/index',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]
         );
@@ -71,7 +71,7 @@ class RegistrClientController extends Controller
     /**
      * Displays a single RegistrClient model.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -99,20 +99,20 @@ class RegistrClientController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 //            Получаем  id выбранного клиента
-            $client_id  = $model->client_id;
+            $client_id = $model->client_id;
 //            Получаем о нем данные и сохраняем
-            $client     = $model->getClientInfo($client_id);
+            $client = $model->getClientInfo($client_id);
 
-            $model->client_name    = $client['name'];
+            $model->client_name = $client['name'];
             $model->client_article = $client['article'];
-            $model->client_phone   = $client['phone'];
-            $model->client_city    = $client['city'];
-            $model->client_area    = $client['area'];
+            $model->client_phone = $client['phone'];
+            $model->client_city = $client['city'];
+            $model->client_area = $client['area'];
 
 //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
 //            Получаем о нем данные и сохраняем
-            $carrier    = $model->getCarrierInfo($carrier_id);
+            $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
             $model->client_carrier_name = $carrier['name'];
@@ -134,26 +134,25 @@ class RegistrClientController extends Controller
      * Updates an existing RegistrClient model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model  = $this->findModel($id);
+        $model = $this->findModel($id);
         $client = $model->getClientInfo($id);
-        if ($model->load(Yii::$app->request->post()) ) {
-
-                $model->client_phone = $client['phone'];
-                $model->client_city  = $client['city'];
-                $model->client_area  = $client['area'];
+        if ($model->load(Yii::$app->request->post())) {
+            $model->client_phone = $client['phone'];
+            $model->client_city = $client['city'];
+            $model->client_area = $client['area'];
 //                $model->save();
 
             //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
 //            Получаем о нем данные и сохраняем
-            $carrier    = $model->getCarrierInfo($carrier_id);
+            $carrier = $model->getCarrierInfo($carrier_id);
 
             $model->client_carrier_article = $carrier['article'];
             $model->client_carrier_name = $carrier['name'];
@@ -177,16 +176,24 @@ class RegistrClientController extends Controller
      */
     public function actionMultipleDelete()
     {
-        $id = Yii::$app->request->post('row_id_to_delete');
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->post('row_id_to_delete')) {
+                $id = Yii::$app->request->post('row_id_to_delete');
 
-        /*foreach ($pk as $key => $value)
-        {
-            $sql = "DELETE FROM order WHERE id = $value";
-            $query = Yii::$app->db->createCommand($sql)->execute();
-        }*/
-        RegistrClient::deleteAll(['id'=>$id]);
+                /*foreach ($pk as $key => $value)
+                {
+                    $sql = "DELETE FROM order WHERE id = $value";
+                    $query = Yii::$app->db->createCommand($sql)->execute();
+                }*/
+                RegistrClient::deleteAll(['id' => $id]);
+                $msg = Yii::$app->session->setFlash('success', 'Выбранные клиенты удалены');
 
-        return $this->redirect(['index']);
+                return $this->redirect(['index', 'msg' => $msg]);
+            }else {
+                $msg = Yii::$app->session->setFlash('info', 'Выберите клиентов для удаления');
+                return $this->redirect(['index', 'msg' => $msg]);
+            }
+        }
 
     }
 
@@ -194,10 +201,12 @@ class RegistrClientController extends Controller
      * Deletes an existing RegistrClient model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -210,7 +219,7 @@ class RegistrClientController extends Controller
      * Finds the RegistrClient model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return RegistrClient the loaded model
      * @throws NotFoundHttpException if the model cannot be found

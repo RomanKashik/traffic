@@ -44,7 +44,7 @@ class Order extends ActiveRecord
 {
     public const STATUS_ISSUED = 'оформлен';
     public const STATUS_CHECKED = 'готов к выдаче';
-
+    public const STATUS_ISSUED_IN_WAREHOUSE = 'оформлен на складе';
     protected const RATE = '20000';
 
 
@@ -276,7 +276,7 @@ class Order extends ActiveRecord
             foreach ($checkCount as $item) {
                 if ($item['count'] === $item['count_user_id'] && $item['id'] == $this->user_id) {
                     $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
-                    $reg->status = 'оформлен на складе';
+                    $reg->status = self::STATUS_ISSUED_IN_WAREHOUSE;
                     $reg->update();
                     if (Yii::$app->user->can('permissionStock')) {
                         Yii::$app->session->setFlash('success', $item['client_name'].' оформлен');

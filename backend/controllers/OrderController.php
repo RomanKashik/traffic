@@ -30,10 +30,10 @@ class OrderController extends Controller
     public function behaviors()
     {
         return [
-            'verbs'  => [
-                'class'   => VerbFilter::class,
+            'verbs' => [
+                'class' => VerbFilter::class,
                 'actions' => [
-                    'delete'          => ['POST'],
+                    'delete' => ['POST'],
                     'multiple-delete' => ['POST'],
                 ],
             ],
@@ -58,14 +58,14 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel  = new OrderSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 //        $dataProvider->pagination->pageSize = 10;
 
         return $this->render(
             '@frontend/views/order/index',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
 
             ]
@@ -75,7 +75,7 @@ class OrderController extends Controller
     /**
      * Displays a single Order model.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -97,8 +97,8 @@ class OrderController extends Controller
             '@frontend/views/order/view',
             [
                 'dataProvider' => $dataProvider,
-                'model'        => $this->findModel($id),
-                'modelsPack'   => $modelsPack,
+                'model' => $this->findModel($id),
+                'modelsPack' => $modelsPack,
             ]
         );
     }
@@ -111,7 +111,7 @@ class OrderController extends Controller
      */
     public function actionCreate()
     {
-        $model      = new Order();
+        $model = new Order();
         $modelsPack = [new Pack()];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -136,7 +136,7 @@ class OrderController extends Controller
                     if ($flag = $model->save(false)) {
                         foreach ($modelsPack as $modelPack) {
                             $modelPack->order_id = $model->id;
-                            $modelPack->user_id  = $model->user_id;
+                            $modelPack->user_id = $model->user_id;
                             Yii::$app->session->setFlash('success', 'Заказ сохранен');
                             if (!($flag = $modelPack->save(false))) {
                                 $transaction->rollBack();
@@ -144,8 +144,8 @@ class OrderController extends Controller
                             }
                         }
 
-                        $client_id         = $model->user_id;
-                        $carrier_id        = $model->getCarrierId($client_id);
+                        $client_id = $model->user_id;
+                        $carrier_id = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
                         foreach ($model->status as $model->status) {
@@ -166,7 +166,7 @@ class OrderController extends Controller
             return $this->render(
                 '@frontend/views/order/create',
                 [
-                    'model'      => $model,
+                    'model' => $model,
                     'modelsPack' => (empty($modelsPack)) ? [new Pack()] : $modelsPack
                 ]
             );
@@ -177,17 +177,17 @@ class OrderController extends Controller
      * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model      = $this->findModel($id);
+        $model = $this->findModel($id);
         $modelsPack = $model->packs;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $oldIDs     = ArrayHelper::map($modelsPack, 'id', 'id');
+            $oldIDs = ArrayHelper::map($modelsPack, 'id', 'id');
             $modelsPack = Model::createMultiple(Pack::class, $modelsPack);
             Model::loadMultiple($modelsPack, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsPack, 'id', 'id')));
@@ -205,15 +205,15 @@ class OrderController extends Controller
                         }
                         foreach ($modelsPack as $modelPack) {
                             $modelPack->order_id = $model->id;
-                            $modelPack->user_id  = $model->user_id;
+                            $modelPack->user_id = $model->user_id;
                             if (!($flag = $modelPack->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
                         }
 
-                        $client_id         = $model->user_id;
-                        $carrier_id        = $model->getCarrierId($client_id);
+                        $client_id = $model->user_id;
+                        $carrier_id = $model->getCarrierId($client_id);
                         $model->carrier_id = $carrier_id['client_carrier_id'];
 //                        $model->status = implode(', ',$model->status);
                         foreach ($model->status as $model->status) {
@@ -235,7 +235,7 @@ class OrderController extends Controller
             return $this->render(
                 '@frontend/views/order/update',
                 [
-                    'model'      => $model,
+                    'model' => $model,
                     'modelsPack' => (empty($modelsPack)) ? [new Pack] : $modelsPack
                 ]
             );
@@ -249,12 +249,12 @@ class OrderController extends Controller
      */
     public function actionClient()
     {
-        $searchModel  = new OrderSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render(
             '@frontend/views/order/client',
             [
-                'searchModel'  => $searchModel,
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]
         );
@@ -263,23 +263,31 @@ class OrderController extends Controller
     /**
      * Обновление статусов у выбранных клиентов
      *
-     * @return \yii\web\Response
+     * @return Response
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
     public function actionMultipleCheck()
     {
-        $id = Yii::$app->request->post('row_id_to_update');
-        Order::updateAll(['status' => 'готов к выдаче'], ['id' =>$id]);
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->post('row_id_to_update')) {
 
+                $id = Yii::$app->request->post('row_id_to_update');
 
-        self::checkStatus();
+                Order::updateAll(['status' => Order::STATUS_CHECKED], ['id' => $id]);
 
-        Yii::$app->session->setFlash('info', 'Статус обновлен');
+                self::checkStatus();
 
+                Yii::$app->session->setFlash('info', 'Статус обновлен');
 
+                $msg = Yii::$app->session->setFlash('info', 'Статусы обновлены');
+                return $this->redirect(['index', 'msg' => $msg]);
+            }else {
+                $msg = Yii::$app->session->setFlash('info', 'Выберите клиентов для обновления статуса');
+                return $this->redirect(['index', 'msg' => $msg]);
+            }
+        }
 
-        return $this->redirect(['index']);
     }
 
     /**
@@ -287,8 +295,11 @@ class OrderController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public static function checkStatus (){
-        $status = Order::find()->select(['order.status, user_id, COUNT(*) AS order_count, registr_client.count,registr_client.id'])
+    public static function checkStatus()
+    {
+        $status = Order::find()->select(
+            ['order.status, user_id, COUNT(*) AS order_count, registr_client.count,registr_client.id']
+        )
             ->join(
                 'LEFT JOIN',
                 'registr_client',
@@ -301,11 +312,10 @@ class OrderController extends Controller
 
         foreach ($status as $item) {
             if ($item['count'] == $item['order_count']) {
-                $reg         = RegistrClient::find()->where(['id' => $item['id']])->one();
+                $reg = RegistrClient::find()->where(['id' => $item['id']])->one();
                 $reg->status = 'Готов к выдаче';
                 $reg->update();
             }
-
         }
     }
 
@@ -313,7 +323,7 @@ class OrderController extends Controller
      * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return mixed
      * @throws \Throwable
@@ -331,7 +341,7 @@ class OrderController extends Controller
      * Finds the Order model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param  int  $id
+     * @param int $id
      *
      * @return Order the loaded model
      * @throws NotFoundHttpException if the model cannot be found

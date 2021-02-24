@@ -274,7 +274,7 @@ $checkAll = <<< JS
 
 $("#checkAll").on('click',function(){
     let keys = $('#grid').yiiGridView('getSelectedRows');
-      console.log(keys);
+     
     $.ajax({
             type: 'POST',
             url : 'multiple-check',

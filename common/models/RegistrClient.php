@@ -169,6 +169,7 @@ class RegistrClient extends \yii\db\ActiveRecord
             return Client::find()->select(['name','article','city','area','phone'])->where('id=:id',[':id'=>$client_id])->asArray()
                 ->one();
         }
+
         $id = $this::find()->select('client_id')->where('id=:id',[':id'=>$client_id]);
 
         return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$id])->asArray()

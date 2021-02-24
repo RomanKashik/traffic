@@ -285,19 +285,30 @@ class OrderController extends Controller
     /**
      * Обновление статусов у выбранных клиентов
      *
-     * @return \yii\web\Response
+     * @return Response
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
     public function actionMultipleCheck()
     {
-        $ids = Yii::$app->request->post('row_id_to_update');
-        Order::updateAll(['status' => 'готов к выдаче'], ['id' => $ids]);
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->post('row_id_to_update')) {
 
-        self::checkStatus();
-        Yii::$app->session->setFlash('info', 'Статус обновлен');
+                $id = Yii::$app->request->post('row_id_to_update');
 
-        return $this->redirect(['index']);
+                Order::updateAll(['status' => Order::STATUS_CHECKED], ['id' => $id]);
+
+                self::checkStatus();
+
+                Yii::$app->session->setFlash('info', 'Статус обновлен');
+
+                return $this->redirect(['index']);
+            }else {
+                $msg = Yii::$app->session->setFlash('info', 'Выберите клиентов для обновления статуса');
+                return $this->redirect(['index', 'msg' => $msg]);
+            }
+        }
+
     }
 
     /**

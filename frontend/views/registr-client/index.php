@@ -21,20 +21,24 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-12 col-md-6">
                 <?php
                 if (Yii::$app->user->can('permissionMarket')) : ?>
-                        <?= Html::a('Оформление клиента', ['create'], ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']) ?>
+                    <?= Html::a(
+                        'Оформление клиента',
+                        ['create'],
+                        ['class' => 'btn btn-success btn-sm mt-10 mt-xs-0']
+                    ) ?>
+                    <?php
+                    if (Yii::$app->user->can('permissionAdmin')) : ?>
+                        <input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
+                               id="deleteAll">
                         <?php
-                        if (Yii::$app->user->can('permissionAdmin')) : ?>
-                            <input type="button" class="btn btn-danger btn-sm mt-10 mt-xs-0" value="Удалить выбранные"
-                                   id="deleteAll">
-                            <?php
-                            // echo $this->render('_search', ['model' => $searchModel]); ?>
-                        <?php
-                        endif; ?>
+                        // echo $this->render('_search', ['model' => $searchModel]); ?>
+                    <?php
+                    endif; ?>
                 <?php
                 endif; ?>
                 <?php
                 if (Yii::$app->user->can('permissionStock')) : ?>
-                        <?= Html::a('Назад', ['/order/index'], ['class' => 'btn btn-info btn-sm mt-10 mt-xs-0']) ?>
+                    <?= Html::a('Назад', ['/order/index'], ['class' => 'btn btn-info btn-sm mt-10 mt-xs-0']) ?>
                 <?php
                 endif; ?>
             </div>
@@ -141,11 +145,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yii\grid\ActionColumn',
                         'visible' => Yii::$app->user->can('permissionMarket'),
                         'visibleButtons' => [
-                        		'delete' => Yii::$app->user->can('permissionAdmin'),
-							'update'=>function ($model) {
+                            'delete' => Yii::$app->user->can('permissionAdmin'),
+                            'update' => function ($model) {
                                 return $model->status !== 'Готов к выдаче';
                             }
-						],
+                        ],
                     ],
                 ],
             ]
@@ -157,18 +161,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 <?php
 $deleteAll = <<< JS
+ let keys = $('#grid').yiiGridView('getSelectedRows');
 
 $("#deleteAll").on('click',function(){
     let keys = $('#grid').yiiGridView('getSelectedRows');
-      console.log(keys);
+    
+    
     $.ajax({
             type: 'POST',
             url : 'multiple-delete',
             data : {row_id_to_delete: keys},
             success : function() {
               $(this).closest('tr').remove(); //or whatever html you use for displaying rows
-            }
+            },
+          
         });
+   
     });
 JS;
 

@@ -224,7 +224,7 @@ class Order extends ActiveRecord
                 'COUNT(order.user_id) as count_user_id, user_id,registr_client.id, registr_client.client_name,
          registr_client.count, registr_client.created_at '
             ]
-        )->where(['registr_client.status' => 'Принят'])->join(
+        )->where(['registr_client.status' => 'принят'])->join(
             'LEFT JOIN',
             'order',
             'order.user_id = registr_client.id'

@@ -42,7 +42,7 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'count')->textInput() ?>
 
-    <?= $form->field($model, 'status')->hiddenInput(['value'=>$model->isNewRecord? 'Принят':'Оформлен на складе'])
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>$model::STATUS_ACCEPTED])
 		->label(false) ?>
 
 

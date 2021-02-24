@@ -34,12 +34,13 @@ use yii\helpers\ArrayHelper;
  */
 class RegistrClient extends \yii\db\ActiveRecord
 {
+    public const STATUS_ACCEPTED = 'принят';
 
     public function behaviors()
     {
         return [
             [
-                'class'      => TimestampBehavior::class,
+                'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
@@ -82,7 +83,7 @@ class RegistrClient extends \yii\db\ActiveRecord
                 'max' => 255
             ],
             [['client_id', 'client_carrier_id', 'count'], 'required'],
-            ['status','safe'],
+            ['status', 'safe'],
         ];
     }
 
@@ -92,15 +93,15 @@ class RegistrClient extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                => 'ID',
-            'client_id'         => 'Клиент',
-            'client_article'    => 'Артикул',
-            'client_name'       => 'Клиент',
+            'id' => 'ID',
+            'client_id' => 'Клиент',
+            'client_article' => 'Артикул',
+            'client_name' => 'Клиент',
             'client_carrier_id' => 'Перевозчик',
-            'count'             => 'Кол-во мест',
-            'status'            => 'Статус',
-            'created_at'        => 'Дата',
-            'updated_at'        => 'Дата',
+            'count' => 'Кол-во мест',
+            'status' => 'Статус',
+            'created_at' => 'Дата',
+            'updated_at' => 'Дата',
         ];
     }
 
@@ -166,13 +167,16 @@ class RegistrClient extends \yii\db\ActiveRecord
     public function getClientInfo($client_id)
     {
         if ($this->isNewRecord) {
-            return Client::find()->select(['name','article','city','area','phone'])->where('id=:id',[':id'=>$client_id])->asArray()
+            return Client::find()->select(['name', 'article', 'city', 'area', 'phone'])->where(
+                'id=:id',
+                [':id' => $client_id]
+            )->asArray()
                 ->one();
         }
 
-        $id = $this::find()->select('client_id')->where('id=:id',[':id'=>$client_id]);
+        $id = $this::find()->select('client_id')->where('id=:id', [':id' => $client_id]);
 
-        return Client::find()->select(['name','article','city','area','phone'])->where(['id'=>$id])->asArray()
+        return Client::find()->select(['name', 'article', 'city', 'area', 'phone'])->where(['id' => $id])->asArray()
             ->one();
     }
 
@@ -184,7 +188,7 @@ class RegistrClient extends \yii\db\ActiveRecord
      */
     public function getCarrierInfo($carrier_id)
     {
-        return Carrier::find()->select(['name','article','phone'])->where(['id'=>$carrier_id])->asArray()
+        return Carrier::find()->select(['name', 'article', 'phone'])->where(['id' => $carrier_id])->asArray()
             ->one();
     }
 

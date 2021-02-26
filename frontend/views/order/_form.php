@@ -20,9 +20,9 @@ use romanmaroder\dynamicform\DynamicFormWidget;
 
 
     <?php
-    if ($model->isNewRecord) : ?>
+    if ($model->isNewRecord) {
 
-        <?php
+
         echo $form->field($model, 'user_id')->textInput()->widget(
             Select2::class,
             [
@@ -34,10 +34,8 @@ use romanmaroder\dynamicform\DynamicFormWidget;
                     'allowClear' => true
                 ],
             ]
-        ) ?>
-
-    <?php
-    endif; ?>
+        );}
+    ?>
 
     <?php
     echo $form->field($model, 'type_of_package_id')->textInput(['maxlength' => true])->widget(

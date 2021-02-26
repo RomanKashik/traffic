@@ -21,7 +21,7 @@ class ParameterController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['stockman','admin'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

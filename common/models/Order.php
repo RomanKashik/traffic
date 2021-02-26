@@ -187,28 +187,17 @@ class Order extends ActiveRecord
     }
 
     /**
-     * Общее кол-во упаковок
-     *
-     * @return int
-     */
-    public function getTotalCountPackages(): int
-    {
-        return Order::find()->count('type_of_package_id');
-    }
-
-    /**
      * Получение итоговые значения из таблицы [[Order]]
      *
-     * @param $column_name  - имя столбца в таблице
-     *
-     * @param $operation  - название функции mysql
-     *
-     * @return float
+     * @return array|\yii\db\ActiveRecord|null
      */
 
-    public function getTotalValue($operation, $column_name): float
+    public function getTotalValues()
     {
-        return number_format(Order::find()->$operation($column_name), 2, '.', '');
+        return Order::find()->select(
+            'SUM(cost) as cost, AVG(cost) as average_cost, SUM(size) as size,SUM(weight) as weight, COUNT(type_of_package_id) as count_package'
+        )->asArray()
+            ->all();
     }
 
     /**
@@ -355,7 +344,6 @@ class Order extends ActiveRecord
      */
     public function getStatus()
     {
-
         if (Yii::$app->user->can('permissionAdmin')) {
             return $status = [
                 self::STATUS_ISSUED  => 'Оформлен',
@@ -367,12 +355,11 @@ class Order extends ActiveRecord
             return $status = [
                 self::STATUS_CHECKED => 'Готов к выдаче',
             ];
-        }else {
+        } else {
             return $status = [
                 self::STATUS_ISSUED => 'Оформлен'
             ];
         }
-
     }
 
     /**

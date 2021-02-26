@@ -219,9 +219,9 @@ class OrderController extends Controller
                         foreach ($model->status as $model->status) {
                             $model->save();
                         }
-                        if (Yii::$app->user->can('permissionStockDPR')) {
+//                        if (Yii::$app->user->can('permissionStockDPR')) {
                             self::checkStatus();
-                        }
+//                        }
                     }
                     if ($flag) {
                         $transaction->commit();
@@ -311,9 +311,9 @@ class OrderController extends Controller
             )->asArray()->all();
 
         foreach ($status as $item) {
-            if ($item['count'] == $item['order_count'] && $item['status'] == Order::STATUS_CHECKED) {
-                $reg = RegistrClient::find()->where(['id' => $item['id']])->one();
-                $reg->status = 'Готов к выдаче';
+            if ($item['count'] == $item['order_count'] && $item['status']== Order::STATUS_CHECKED) {
+                $reg         = RegistrClient::find()->where(['id' => $item['id']])->one();
+                $reg->status = Order::STATUS_CHECKED;
                 $reg->update();
             }
         }

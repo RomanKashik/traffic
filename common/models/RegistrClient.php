@@ -30,6 +30,7 @@ use yii\helpers\ArrayHelper;
  * @property-read \yii\db\ActiveQuery $client
  * @property-read \yii\db\ActiveQuery $carrier
  * @property-read array $carrierData
+ * @property-read mixed $order
  * @property int|null $updated_at
  */
 class RegistrClient extends \yii\db\ActiveRecord

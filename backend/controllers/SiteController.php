@@ -34,34 +34,21 @@ class SiteController extends AppAdmin
      */
     public function actionIndex()
     {
-        $order = new Order();
+        $order  = new Order();
         $client = new Client();
 
         $typePackages = $order->getInfoTypePackge();
 
-        $totalPack = $order->getTotalCountPackages();
-
-        $totalCost = $order->getTotalValue('sum', 'cost');
-
-        $totalSize = $order->getTotalValue('sum', 'size');
-
-        $totalWeight = $order->getTotalValue('sum', 'weight');
-
-        $avgCost = $order->getTotalValue('average', 'cost');
+        $totalValue = $order->getTotalValues();
 
         $clients = $client->getCountClient();
-
 
         return $this->render(
             'index',
             [
+                'totalValue'   => $totalValue,
                 'typePackages' => $typePackages,
-                'totalPack' => $totalPack,
-                'totalCost' => $totalCost,
-                'clients' => $clients,
-                'totalSize' => $totalSize,
-                'totalWeight' => $totalWeight,
-                'avgCost' => $avgCost,
+                'clients'      => $clients,
             ]
         );
     }
@@ -74,12 +61,11 @@ class SiteController extends AppAdmin
 
     public function actionLogin()
     {
-        $this->layout = 'main-login';
-        $model = new LoginForm();
+        $this->layout    = 'main-login';
+        $model           = new LoginForm();
         $model->password = ''; // перенести в метод rules формы, как default
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
             $user = User::findOne(['username' => $model->username]);
 
             if (Yii::$app->getAuthManager()->checkAccess($user->getId(), 'permissionAdmin')) {

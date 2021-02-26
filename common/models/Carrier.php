@@ -48,15 +48,11 @@ class Carrier extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getArticle()
+    public function getCarrierData($column_name)
     {
-        $article = Carrier::find()->all();
-        return ArrayHelper::map($article, 'article', 'article');
+        $data = Carrier::find()->select($column_name)->all();
+        return ArrayHelper::map($data, $column_name, $column_name);
     }
 
-    public function getName()
-    {
-        $name = Carrier::find()->all();
-        return ArrayHelper::map($name, 'name', 'name');
-    }
+
 }

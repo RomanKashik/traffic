@@ -334,7 +334,7 @@ class OrderController extends Controller
         foreach ($status as $item) {
             if ($item['count'] == $item['order_count'] && $item['status']== Order::STATUS_CHECKED) {
                 $reg         = RegistrClient::find()->where(['id' => $item['id']])->one();
-                $reg->status = 'Готов к выдаче';
+                $reg->status = Order::STATUS_CHECKED;
                 $reg->update();
             }
         }

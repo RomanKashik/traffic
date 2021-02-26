@@ -33,7 +33,7 @@ class PackController extends Controller
                 'rules'        => [
                     [
                         'allow' => true,
-                        'roles' => ['manager', 'admin'],
+                        'roles' => ['admin'],
                     ],
                 ],
 

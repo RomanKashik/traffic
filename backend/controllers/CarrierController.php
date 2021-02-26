@@ -32,7 +32,7 @@ class CarrierController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['market','admin'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -56,7 +56,7 @@ class CarrierController extends Controller
 
     /**
      * Displays a single Carrier model.
-     * @param integer $id
+     * @param  int  $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */

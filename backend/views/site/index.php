@@ -3,11 +3,8 @@
 /* @var $this yii\web\View */
 /* @var $typePackages \backend\controllers\AppAdmin */
 /* @var $clients \backend\controllers\SiteController */
-/* @var $totalCost \backend\controllers\SiteController */
-/* @var $totalSize \backend\controllers\SiteController */
-/* @var $totalWeight \backend\controllers\SiteController */
-/* @var $avgCost \backend\controllers\SiteController */
 /* @var $totalPack \backend\controllers\SiteController */
+/* @var $totalValue \backend\controllers\SiteController */
 
 $this->title = 'Статистика';
 ?>
@@ -17,7 +14,7 @@ $this->title = 'Статистика';
 
 		<div class="row">
 			<div class="col-xs-12">
-
+                <?php foreach ($totalValue as $value) :?>
 				<table class="table table-striped">
 					<tbody>
 					<tr>
@@ -29,7 +26,7 @@ $this->title = 'Статистика';
 					<tr>
 						<th>общее кол-во упаковок</th>
 						<td><?php
-                            echo $totalPack; ?> шт
+                            echo $value['count_package']; ?> шт
 						</td>
 					</tr>
                     <?php
@@ -42,37 +39,37 @@ $this->title = 'Статистика';
 							<td>
                                 <?php
                                 echo $package['count'].' шт'; ?>
-
 							</td>
 						</tr>
                     <?php
-                    endforeach;; ?>
+                    endforeach; ?>
 					<tr>
 						<th>общий объем</th>
 						<td><?php
-                            echo $totalSize; ?> м <sup>3</sup></td>
+                            echo number_format($value['size'],'2','.',''); ?> м <sup>3</sup></td>
 					</tr>
 					<tr>
 						<th>общий вес</th>
 						<td><?php
-                            echo $totalWeight; ?> кг
+                            echo number_format($value['weight'],'2','.','');; ?> кг
 						</td>
 					</tr>
 					<tr>
 						<th>средняя стоимость посылки</th>
 						<td><?php
-                            echo $avgCost; ?> руб
+                            echo number_format($value['average_cost'],'2','.',''); ?> руб
 						</td>
 					</tr>
 					<tr>
 						<th>общая стоимость</th>
 						<td><?php
-                            echo $totalCost; ?> руб
+                            echo number_format($value['cost'],'2','.',''); ?> руб
 						</td>
 					</tr>
 					</tbody>
 
 				</table>
+                <?php endforeach; ?>
 			</div>
 		</div>
 

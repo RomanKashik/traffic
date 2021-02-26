@@ -3,7 +3,6 @@
 namespace common\models;
 
 
-use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -16,6 +15,8 @@ use yii\helpers\ArrayHelper;
  * @property string|null $name
  * @property string|null $phone
  * @property string|null $city
+ * @property-read int $countClient
+ * @property-read null|mixed $clientLastArticle
  * @property string|null $area
  */
 class Client extends ActiveRecord
@@ -104,7 +105,7 @@ class Client extends ActiveRecord
      */
     public function getClientQueryData($column_name): array
     {
-        $data = Client::find()->select([$column_name])->distinct()->all();
+        $data = Client::find()->select([$column_name])->all();
         return ArrayHelper::map($data, $column_name, $column_name);
     }
 
@@ -114,7 +115,6 @@ class Client extends ActiveRecord
      */
     public function getCountClient():int
     {
-
         return Client::find()->count('id');
     }
 }

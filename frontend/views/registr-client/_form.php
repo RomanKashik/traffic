@@ -12,20 +12,36 @@ use kartik\select2\Select2;
 
 <div class="registr-client-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-
-    <?= $form->field($model, 'client_id')->textInput()->widget(
-        Select2::class,
-        [
-            'name'          => 'client',
-            'language'      => 'ru',
-            'data'          => $model->getClientData(),
-            'options'       => ['placeholder' => 'Выберите клиента ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]
-    ) ?>
+    <?php
+    $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+    <?php
+    if ($model->isNewRecord) {
+        echo $form->field($model, 'client_id')->textInput()->widget(
+            Select2::class,
+            [
+                'name'          => 'client',
+                'language'      => 'ru',
+                'data'          => $model->getClientData(),
+                'options'       => ['placeholder' => 'Выберите клиента ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        );
+    }; ?>
+    <?
+    /*= $form->field($model, 'client_id')->textInput()->widget(
+            Select2::class,
+            [
+                'name'          => 'client',
+                'language'      => 'ru',
+                'data'          => $model->getClientData(),
+                'options'       => ['placeholder' => 'Выберите клиента ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]
+        ) */ ?>
 
     <?= $form->field($model, 'client_carrier_id')->textInput(['maxlength' => true])->widget(
         Select2::class,
@@ -42,14 +58,15 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'count')->textInput() ?>
 
-    <?= $form->field($model, 'status')->hiddenInput(['value'=>$model::STATUS_ACCEPTED])
-		->label(false) ?>
+    <?= $form->field($model, 'status')->hiddenInput(['value' => $model::STATUS_ACCEPTED])
+        ->label(false) ?>
 
 
-    <div class="form-group">
+	<div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success btn-sm']) ?>
-    </div>
+	</div>
 
-    <?php ActiveForm::end(); ?>
+    <?php
+    ActiveForm::end(); ?>
 
 </div>

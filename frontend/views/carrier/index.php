@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'model'         => $searchModel,
                             'attribute'     => 'article',
-                            'data'          => $searchModel->getArticle(),
+                            'data'          => $searchModel->getCarrierData('article'),
                             'value'         => $searchModel->article,
                             'options'       => [
                                 'class'       => 'form-control',
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'model'         => $searchModel,
                             'attribute'     => 'name',
-                            'data'          => $searchModel->getName(),
+                            'data'          => $searchModel->getCarrierData('name'),
                             'value'         => $searchModel->name,
                             'options'       => [
                                 'class'       => 'form-control',

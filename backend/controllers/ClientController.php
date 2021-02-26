@@ -34,14 +34,9 @@ class ClientController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-//                        'actions' => ['login', 'signup'],
-                        'roles' => ['market', 'admin'],
+                        'roles' => ['admin'],
                     ],
-//                     [
-//                         'allow' => true,
-//                         'actions' => ['index'],
-//                         'roles' => ['stockman'],
-//                     ],
+
                 ],
 
             ],

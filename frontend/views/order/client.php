@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;; ?>
             [
                 'model' => $searchModel,
                 'attribute' => 'user_id',
-                'data' => $searchModel->getClientOrderData('client_name'),
+                'data' => $searchModel->getClientOrderData('client_name','client_name'),
                 'value' => $searchModel->clientReg->client_name,
                 'options' => [
                     'class' => 'form-control',

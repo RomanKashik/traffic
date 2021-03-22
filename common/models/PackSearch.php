@@ -40,10 +40,12 @@ class PackSearch extends Pack
      */
     public function search($params)
     {
-        $query = Pack::find();
+        $query = Pack::find()->select(['name,unit_id, SUM(count) as count'])->groupBy(['name']);
         $query->joinWith(['order']);
 //        $query->joinWith(['client']);
-
+        /*SELECT word, SUM( amount )
+FROM Data
+GROUP BY `word`;*/
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

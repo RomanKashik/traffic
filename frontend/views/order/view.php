@@ -74,7 +74,7 @@ YiiAsset::register($this);
                 'value' => function ($model) {
                     $out = '';
                     foreach ($model->packs as $item) {
-                        $out .= $item->count . PHP_EOL . '<br>';
+                        $out .= $item->count.' '.$item->unit->name. PHP_EOL . '<br>';
                     }
                     return $out;
                 }

@@ -142,10 +142,14 @@ class RegistrClientController extends Controller
     {
         $model = $this->findModel($id);
         $client = $model->getClientInfo($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             $model->client_phone = $client['phone'];
             $model->client_city = $client['city'];
             $model->client_area = $client['area'];
+            $model->client_name = $client['name'];
+            $model->client_article = $client['article'];
             //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
             //  Получаем о нем данные и сохраняем

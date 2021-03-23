@@ -142,9 +142,7 @@ class RegistrClientController extends Controller
     {
         $model = $this->findModel($id);
         $client = $model->getClientInfo($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
             $model->client_phone = $client['phone'];
             $model->client_city = $client['city'];
             $model->client_area = $client['area'];

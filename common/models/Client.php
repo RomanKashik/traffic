@@ -23,6 +23,7 @@ class Client extends ActiveRecord
 {
 
     public $lastarticle;
+
     /**
      * {@inheritdoc}
      */
@@ -47,7 +48,7 @@ class Client extends ActiveRecord
                 'message' => 'Пример правильного артикула Я-1, П-3... '
             ],
             [['article'], 'unique', 'message' => 'Такой артикул уже существует'],
-            ['lastarticle','string'],
+            ['lastarticle', 'string'],
             [['phone'], 'trim'],
             [['phone'], 'default'],
             [
@@ -111,12 +112,29 @@ class Client extends ActiveRecord
 
     /**
      * Общее кол-во клиентов в таблице [[Client]]
+     *
      * @return int
      */
-    public function getCountClient():int
+    public function getCountClient(): int
     {
         return Client::find()->count('id');
     }
+
+
+    /**
+     * @param $id
+     * Обновление данных клиента, в оформлении и заказе
+     */
+    public function updateRegClient($id)
+    {
+        $regClient = RegistrClient::find()->where(['client_id' => $id])->asArray()->one();
+        if ($regClient) {
+            if ($this->article !== $regClient->client_article && $this->name !== $regClient->client_name) {
+                RegistrClient::updateAll(['client_article' => $this->article, 'client_name' => $this->name]);
+            }
+        }
+    }
+
 }
 
 

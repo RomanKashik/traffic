@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use common\models\RegistrClient;
 use Yii;
+
 //use common\models\ClientRegistr;
 use common\models\Client;
 use common\models\ClientSearch;
@@ -25,7 +27,7 @@ class ClientController extends Controller
             'verbs'  => [
                 'class'   => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete'          => ['POST'],
                     'multiple-delete' => ['POST'],
                 ],
             ],
@@ -65,7 +67,7 @@ class ClientController extends Controller
     /**
      * Displays a single Client model.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -114,7 +116,7 @@ class ClientController extends Controller
      * Updates an existing Client model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param  integer  $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -124,6 +126,9 @@ class ClientController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->updateRegClient($id);
+
             Yii::$app->session->setFlash('success', 'Клиент обновлен');
             return $this->redirect(['view', 'id' => $model->id]);
         }

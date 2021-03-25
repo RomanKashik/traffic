@@ -267,10 +267,10 @@ class Order extends ActiveRecord
                     $reg         = RegistrClient::find()->where(['id' => $this->user_id])->one();
                     $reg->status = self::STATUS_ISSUED_IN_WAREHOUSE;
                     $reg->update();
-                    if (Yii::$app->user->can('permissionStock')) {
+                    if (Yii::$app->user->can('permissionStock') ) {
                         Yii::$app->session->setFlash('success', $item['client_name'].' оформлен');
                     }
-                } elseif (Yii::$app->user->can('permissionStock')) {
+                } elseif (Yii::$app->user->can('permissionStock') ) {
                     Yii::$app->session->setFlash(
                         'success',
                         $item['client_name'].' осталось оформить мест '.($item['count'] - $item['count_user_id'])

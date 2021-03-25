@@ -127,12 +127,17 @@ class Client extends ActiveRecord
      */
     public function updateRegClient($id)
     {
-        $regClient = RegistrClient::find()->where(['client_id' => $id])->asArray()->one();
-        if ($regClient) {
-            if ($this->article !== $regClient->client_article && $this->name !== $regClient->client_name) {
-                RegistrClient::updateAll(['client_article' => $this->article, 'client_name' => $this->name]);
-            }
-        }
+        RegistrClient::findAll(['client_id' => $id]);
+        RegistrClient::updateAll(
+            [
+                'client_name'    => $this->name,
+                'client_article' => $this->article,
+                'client_city'    => $this->city,
+                'client_area'    => $this->area,
+                'client_phone'   => $this->phone,
+            ],
+            ['=', 'client_id', $id]
+        );
     }
 
 }

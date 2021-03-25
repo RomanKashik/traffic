@@ -37,11 +37,12 @@ class RegistrClient extends \yii\db\ActiveRecord
 {
     public const STATUS_ACCEPTED = 'принят';
 
+
     public function behaviors()
     {
         return [
             [
-                'class' => TimestampBehavior::class,
+                'class'      => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
@@ -94,15 +95,15 @@ class RegistrClient extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'client_id' => 'Клиент',
-            'client_article' => 'Артикул',
-            'client_name' => 'Клиент',
+            'id'                => 'ID',
+            'client_id'         => 'Клиент',
+            'client_article'    => 'Артикул',
+            'client_name'       => 'Клиент',
             'client_carrier_id' => 'Перевозчик',
-            'count' => 'Кол-во мест',
-            'status' => 'Статус',
-            'created_at' => 'Дата',
-            'updated_at' => 'Дата',
+            'count'             => 'Кол-во мест',
+            'status'            => 'Статус',
+            'created_at'        => 'Дата',
+            'updated_at'        => 'Дата',
         ];
     }
 
@@ -139,6 +140,7 @@ class RegistrClient extends \yii\db\ActiveRecord
 
     /**
      * Связь с таблицей [[Carrier]]
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getCarrier()
@@ -162,7 +164,9 @@ class RegistrClient extends \yii\db\ActiveRecord
 
     /**
      * Получаем данные о клиенте для оформления
+     *
      * @param $client_id
+     *
      * @return array|\yii\db\ActiveRecord|null
      */
     public function getClientInfo($client_id)
@@ -184,7 +188,9 @@ class RegistrClient extends \yii\db\ActiveRecord
 
     /**
      * Получаем данные о перевозчике для оформления
+     *
      * @param $carrier_id
+     *
      * @return array|\yii\db\ActiveRecord|null
      */
     public function getCarrierInfo($carrier_id)

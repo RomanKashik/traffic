@@ -70,6 +70,7 @@ class RegistrClientController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render(
             '@frontend/views/registr-client/view',
             [
@@ -136,10 +137,6 @@ class RegistrClientController extends Controller
         $model  = $this->findModel($id);
         $client = $model->getClientInfo($id);
 
-      /*  echo '<pre>';
-        var_dump($client);
-        exit();*/
-
         if ($model->load(Yii::$app->request->post())) {
             $model->client_phone = $client['phone'];
             $model->client_city  = $client['city'];
@@ -155,7 +152,9 @@ class RegistrClientController extends Controller
             $model->client_carrier_article = $carrier['article'];
             $model->client_carrier_name    = $carrier['name'];
             $model->client_carrier_phone   = $carrier['phone'];
-            $model->save();
+
+
+            $model->update();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

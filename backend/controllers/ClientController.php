@@ -125,9 +125,11 @@ class ClientController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->updateRegClient( $id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $model->updateRegClient($id);
+
 
             Yii::$app->session->setFlash('success', 'Клиент обновлен');
             return $this->redirect(['view', 'id' => $model->id]);

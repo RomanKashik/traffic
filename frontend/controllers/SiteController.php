@@ -108,7 +108,7 @@ SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             
             if (Yii::$app->user->can('permissionDriver')) {
-                return $this->redirect(['order/index']);
+                return $this->redirect(['client/index']);
             }
             return $this->goHome();
             /*

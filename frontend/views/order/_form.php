@@ -148,8 +148,7 @@ use romanmaroder\dynamicform\DynamicFormWidget;
 								<button type="button" class="add-item btn btn-success btn-xs" <?php
                                 echo $disabled; ?>><i
 											class="glyphicon glyphicon-plus"></i></button>
-								<button type="button" class="remove-item btn btn-danger btn-xs " <?php
-                                echo $disabled; ?>><i
+								<button type="button" class="remove-item btn btn-danger btn-xs " <?php /*echo $disabled; */?>><i
 											class="glyphicon glyphicon-minus"></i></button>
 							</div>
 							<div class="clearfix"></div>

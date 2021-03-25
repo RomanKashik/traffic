@@ -58,8 +58,12 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'count')->textInput() ?>
 
-    <?= $form->field($model, 'status')->hiddenInput(['value' => $model::STATUS_ACCEPTED])
-        ->label(false) ?>
+	<?php if ($model->isNewRecord ) {
+       echo $form->field($model, 'status')->hiddenInput(['value' => $model::STATUS_ACCEPTED])
+            ->label(false);
+	}	?>
+
+
 
 
 	<div class="form-group">

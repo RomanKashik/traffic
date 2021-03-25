@@ -151,6 +151,8 @@ class RegistrClientController extends Controller
 
             //            Получаем  id выбранного перевозчика
             $carrier_id = $model->client_carrier_id;
+
+            $model->updateOrderCarrier($id);
             //  Получаем о нем данные и сохраняем
             $carrier = $model->getCarrierInfo($carrier_id);
 

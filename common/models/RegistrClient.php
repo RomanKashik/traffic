@@ -199,5 +199,18 @@ class RegistrClient extends \yii\db\ActiveRecord
             ->one();
     }
 
+    /**
+     * @param $id
+     */
+    public function updateOrderCarrier($id){
+        Order::findAll(['user_id'=>$id]);
+        Order::updateAll(
+            [
+                'carrier_id'    => $this->client_carrier_id,
+
+            ],
+            ['=', 'user_id', $id]
+        );
+    }
 
 }

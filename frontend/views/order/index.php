@@ -66,7 +66,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'footerRowOptions' => ['style' => 'font-weight:bold;text-decoration: underline;', 'class' => 'success'],
 
                 'columns' => [
-                    //['class' => 'yii\grid\SerialColumn'],
+                    ['class' => 'yii\grid\SerialColumn',
+                     'content' => 'style =min-width:10px!important;',
+						],
                     [
                         'class'   => 'yii\grid\CheckboxColumn',
                             'visible' =>  Yii::$app->user->can('stockmanDPR'),
@@ -107,10 +109,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'article',
                         'label'     => 'Артикул',
-                        'filter'    => false,
                         'value'     => function ($data) {
                             return $data->clientReg->client_article;
-                        }
+                        },
+                        'filter'    => Select2::widget(
+                            [
+                                'model'         => $searchModel,
+                                'attribute'     => 'article',
+                                'data'          => $searchModel->getClientOrderData('client_article', 'client_article'),
+                                'value'         => $searchModel->clientReg->client_article,
+                                'options'       => [
+                                    'class'       => 'form-control',
+                                    'placeholder' => 'По артиклу'
+                                ],
+                                'pluginOptions' => [
+                                    'allowClear' => true,
+                                    'min-width'  => '125px'
+                                ]
+                            ]
+                        ),
                     ],
                     [
                         'attribute'      => 'carrier_id',

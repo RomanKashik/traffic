@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Client;
+use common\models\Order;
 use Yii;
 use common\models\Pack;
 use common\models\PackSearch;
@@ -29,8 +31,8 @@ class PackController extends Controller
                 ],
             ],
             'access' => [
-                'class'        => AccessControl::class,
-                'rules'        => [
+                'class' => AccessControl::class,
+                'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['manager', 'admin'],
@@ -63,7 +65,7 @@ class PackController extends Controller
     /**
      * Displays a single Pack model.
      *
-     * @param int $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -104,7 +106,7 @@ class PackController extends Controller
      * Updates an existing Pack model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param int $id
+     * @param  int  $id
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -130,7 +132,7 @@ class PackController extends Controller
      * Finds the Pack model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param int $id
+     * @param  int  $id
      *
      * @return Pack the loaded model
      * @throws NotFoundHttpException if the model cannot be found
@@ -143,4 +145,27 @@ class PackController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /*public function actionStatistick()
+    {
+        $order  = new Order();
+        $client = new Client();
+
+        $typePackages = $order->getInfoTypePackge();
+
+        $totalValue = $order->getTotalValues();
+
+        $clients = $client->getCountClient();
+
+        return $this->render(
+            'statistick',
+            [
+                [
+                    'totalValue'   => $totalValue,
+                    'typePackages' => $typePackages,
+                    'clients'      => $clients,
+                ]
+            ]
+        );
+    }*/
 }

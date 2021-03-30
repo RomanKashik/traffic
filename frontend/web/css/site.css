@@ -13,7 +13,7 @@ body {
 .wrap > .container,
 .wrap > .container-fluid
 {
-    padding: 70px 15px 20px;
+    padding: 85px 15px 20px;
 }
 
 .footer {
@@ -188,42 +188,42 @@ input[type='number'] {
 .table-order-index tr th {
     text-align: center;
 }
-@media screen and (max-width: 992px) {
+/*@media screen and (max-width: 992px) {
     .scrolling table {
         table-layout: inherit !important;
         margin-left: -100px !important;
-        /*ie7*/
+        !*ie7*!
     }
-}
-.scrolling td,
-.scrolling th {
-    vertical-align: top !important;
-    padding: 10px !important;
-    min-width: 100px !important;
-}
+}*/
+/*.scrolling td,*/
+/*.scrolling th {*/
+/*    vertical-align: top !important;*/
+/*    padding: 10px !important;*/
+/*    min-width: 100px !important;*/
+/*}*/
 
-@media screen and (max-width: 992px) {
-    .scrolling thead th:first-child,
-    .scrolling thead tr.filters td:first-child,
-    .scrolling tbody td:first-child {
-        position: absolute !important;
-        *position: relative !important;
-        /*ie7*/
-        left: 0 !important;
-        width: 150px !important;
-    }
-}
+/*@media screen and (max-width: 992px) {*/
+/*    .scrolling thead th:first-child,*/
+/*    .scrolling thead tr.filters td:first-child,*/
+/*    .scrolling tbody td:first-child {*/
+/*        position: absolute !important;*/
+/*        *position: relative !important;*/
+/*        !*ie7*!*/
+/*        left: 0 !important;*/
+/*        width: 150px !important;*/
+/*    }*/
+/*}*/
 .outer {
     position: relative !important;
     overflow: hidden;
 }
-@media screen and (max-width:992px) {
+/*@media screen and (max-width:992px) {
     .inner {
         overflow-x: auto !important;
         overflow-y: visible !important;
         margin-left: 150px !important;
     }
-}
+}*/
 
 @media screen and (max-width: 767px) {
     .table-responsive {
@@ -267,3 +267,20 @@ ol.instruction> li:before {
     }
 }
 
+.form-search {
+    padding: 10px 15px;
+}
+.form-group.search {
+    display: grid;
+    grid-template-columns: 80% auto;
+    grid-template-rows: auto;
+}
+
+/*.table.detail-view td{
+    width: 50%;
+}*/
+
+.table.detail-view{
+
+    table-layout: fixed;
+}

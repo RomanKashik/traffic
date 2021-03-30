@@ -11,6 +11,10 @@ use common\models\Pack;
  */
 class PackSearch extends Pack
 {
+
+    public $date_from;
+    public $date_to;
+
     /**
      * {@inheritdoc}
      */
@@ -19,6 +23,8 @@ class PackSearch extends Pack
         return [
             [['id', 'order_id'], 'integer'],
             [['name', 'count', 'unit_id'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['date_from', 'date_to'], 'date', 'format' => 'php:d-m-Y'],
         ];
     }
 
@@ -34,7 +40,7 @@ class PackSearch extends Pack
     /**
      * Creates data provider instance with search query applied
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @return ActiveDataProvider
      */
@@ -42,15 +48,15 @@ class PackSearch extends Pack
     {
         $query = Pack::find()->select(['name,unit_id, SUM(count) as count'])->groupBy(['name']);
         $query->joinWith(['order']);
+
 //        $query->joinWith(['client']);
-        /*SELECT word, SUM( amount )
-FROM Data
-GROUP BY `word`;*/
         // add conditions that should always apply here
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        $dataProvider             = new ActiveDataProvider(
+            [
+                'query' => $query,
+            ]
+        );
         $dataProvider->pagination = false;
         $this->load($params);
 
@@ -61,14 +67,20 @@ GROUP BY `word`;*/
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'order_id' => $this->order_id,
-        ]);
+        $query->andFilterWhere(
+            [
+                'id' => $this->id,
+                //'order_id' => $this->order_id,
+            ]
+        );
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'count', $this->count])
             ->andFilterWhere(['like', 'unit_id', $this->unit_id]);
+        $query
+            ->andFilterWhere(['>=','pack.created_at', $this->date_from ? strtotime($this->date_from.' 00:00:00') :
+                null])
+            ->andFilterWhere(['<=','pack.created_at', $this->date_to ? strtotime($this->date_to.' 23:59:59') : null]);
 
         return $dataProvider;
     }

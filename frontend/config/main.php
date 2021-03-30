@@ -46,6 +46,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
+                'search'=>'site/search'
 
             ],
         ],

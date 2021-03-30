@@ -2,7 +2,6 @@
 
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
-use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\web\YiiAsset;
 use yii\widgets\DetailView;
@@ -328,6 +327,7 @@ YiiAsset::register($this);
         <?= DetailView::widget(
             [
                 'model' => $modalPack,
+                'options' => ['class' => 'table table-striped table-bordered detail-view'],
                 'attributes' => [
                     'name',
                     'count',

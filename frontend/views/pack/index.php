@@ -81,7 +81,36 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ]
             ),
-        ]
+        ],
+        [
+            'attribute' => 'created_at',
+            'filter' => kartik\date\DatePicker::widget(
+                [
+                    'model' => $searchModel,
+                    'attribute' => 'date_from',
+                    'attribute2' => 'date_to',
+                    'type' => kartik\date\DatePicker::TYPE_RANGE,
+                    'separator' => 'по',
+                    'pluginOptions' => [
+                        'todayHighlight' => true,
+                        'weekStart' => 1, //неделя начинается с понедельника
+                        'autoclose' => true,
+                        'orientation' => 'bottom auto',
+                        'clearBtn' => true,
+                        'todayBtn' => 'linked',
+                        'format' => 'dd-mm-yyyy',
+                    ],
+
+                    /*'options' => [
+                        'style' => 'width:100px'
+                    ],
+                    'options2' => [
+                        'style' => 'width:100px'
+                    ]*/
+                ]
+            ),
+            'format' => ['date', 'dd-MM-Y'],
+        ],
         //['class' => 'yii\grid\ActionColumn'],
     ]; ?>
 

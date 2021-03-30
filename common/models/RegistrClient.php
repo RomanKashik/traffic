@@ -134,7 +134,14 @@ class RegistrClient extends \yii\db\ActiveRecord
     {
         $client = Client::find()->all();
 
-        return ArrayHelper::map($client, 'id', 'name', 'article');
+//        return ArrayHelper::map($client, 'id', 'name', 'article');
+        return ArrayHelper::map(
+            $client,
+            'id',
+            function ($data) {
+                return $data['name'] . ' '.'('. $data['article'].')';
+            },
+            'article');
     }
 
 

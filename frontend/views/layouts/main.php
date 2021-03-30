@@ -18,12 +18,12 @@ $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="<?= Yii::$app->charset ?>">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
     $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+	<title><?= Html::encode($this->title) ?></title>
     <?php
     $this->head() ?>
 </head>
@@ -35,10 +35,10 @@ $this->beginBody() ?>
     <?php
     NavBar::begin(
         [
-            'brandLabel' => Yii::$app->name,
-            'brandUrl' => Yii::$app->homeUrl,
+            'brandLabel'           => Yii::$app->name,
+            'brandUrl'             => Yii::$app->homeUrl,
 //            'class'=>'container-fluid',
-            'options' => [
+            'options'              => [
                 'class' => 'navbar-inverse navbar-fixed-top navbar-toggle-lg',
             ],
             'renderInnerContainer' => false,
@@ -54,21 +54,21 @@ $this->beginBody() ?>
                 ['label' => 'Главная', 'url' => ['/site/index']];
             $menuItems[] =
                 [
-                    'label' => 'Заказы',
+                    'label'   => 'Заказы',
                     'options' => [
                         'data-toggle' => 'collapse',
                         'data-target' => '#sidebar1',
-                        'class' => 'dropdown'
+                        'class'       => 'dropdown'
                     ],
-                    'items' => [
+                    'items'   => [
                         [
-                            'label' => 'Список заказов',
-                            'url' => ['/order/index'],
+                            'label'  => 'Список заказов',
+                            'url'    => ['/order/index'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Создать заказ',
-                            'url' => ['/order/create'],
+                            'label'  => 'Создать заказ',
+                            'url'    => ['/order/create'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                     ],
@@ -79,31 +79,31 @@ $this->beginBody() ?>
         if (Yii::$app->user->can('permissionMarket')) {
             $menuItems[] =
                 [
-                    'label' => 'Клиент',
-                    'options' => [
+                    'label'           => 'Клиент',
+                    'options'         => [
                         'data-toggle' => 'collapse',
                         'data-target' => '#sidebar2',
-                        'class' => 'dropdown'
+                        'class'       => 'dropdown'
                     ],
-                    'items' => [
+                    'items'           => [
                         [
-                            'label' => 'Список клиентов',
-                            'url' => ['/client/index'],
+                            'label'  => 'Список клиентов',
+                            'url'    => ['/client/index'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Добавить клиента',
-                            'url' => ['/client/create'],
+                            'label'  => 'Добавить клиента',
+                            'url'    => ['/client/create'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Оформить клиента',
-                            'url' => ['/registr-client/create'],
+                            'label'  => 'Оформить клиента',
+                            'url'    => ['/registr-client/create'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Оформленные клиенты',
-                            'url' => ['/registr-client/index'],
+                            'label'  => 'Оформленные клиенты',
+                            'url'    => ['/registr-client/index'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                     ],
@@ -111,21 +111,21 @@ $this->beginBody() ?>
                 ];
             $menuItems[] =
                 [
-                    'label' => 'Перевозчик',
-                    'options' => [
+                    'label'           => 'Перевозчик',
+                    'options'         => [
                         'data-toggle' => 'collapse',
                         'data-target' => '#sidebar3',
-                        'class' => 'dropdown'
+                        'class'       => 'dropdown'
                     ],
-                    'items' => [
+                    'items'           => [
                         [
-                            'label' => 'Список перевозчиков',
-                            'url' => ['/carrier/index'],
+                            'label'  => 'Список перевозчиков',
+                            'url'    => ['/carrier/index'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Добавить перевозчика',
-                            'url' => ['/carrier/create'],
+                            'label'  => 'Добавить перевозчика',
+                            'url'    => ['/carrier/create'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                     ],
@@ -136,66 +136,79 @@ $this->beginBody() ?>
         if (Yii::$app->user->can('permissionManager')) {
             $menuItems[] =
                 [
-                    'label' => 'Упаковочный',
-                    'options' => [
+                    'label'           => 'Упаковочный',
+                    'options'         => [
                         'data-toggle' => 'collapse',
                         'data-target' => '#sidebar3',
-                        'class' => 'dropdown'
+                        'class'       => 'dropdown'
                     ],
-                    'items' => [
+                    'items'           => [
                         [
-                            'label' => 'Клиенты',
-                            'url' => ['/order/client'],
+                            'label'  => 'Клиенты',
+                            'url'    => ['/order/client'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                         [
-                            'label' => 'Позиции',
-                            'url' => ['/pack/index'],
+                            'label'  => 'Позиции',
+                            'url'    => ['/pack/index'],
                             'active' => Yii::$app->controller->id == 'test',
                         ],
                     ],
                     'submenuTemplate' => "\n<ul id='sidebar3' class='nav collapse'>\n{items}\n</ul>\n",
 
                 ];
+            $menuItems[] =
+                [
+                    'label' => 'Статистика',
+                    'url'   => ['/pack/statistick'],
+                ];
         }
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Выйти (' . Yii::$app->user->identity->username . ')',
+            .Html::beginForm(['/site/search'], 'get',['class'=>'form-search'])
+            .Html::beginTag('div', ['class' => 'form-group search'])
+            .Html::input('text', 'q', null, ['class' => 'form-control','placeholder'=>'Позиция'])
+            .Html::submitButton('<span class="glyphicon glyphicon-search">', ['class' => 'btn btn-default'])
+            .Html::endTag('div')
+            .Html::endForm()
+            .'</li>';
+        $menuItems[] = '<li>'
+            .Html::beginForm(['/site/logout'], 'post')
+            .Html::submitButton(
+                'Выйти ('.Yii::$app->user->identity->username.')',
                 ['class' => 'btn btn-link logout']
             )
-            . Html::endForm()
-            . '</li>';
+            .Html::endForm()
+            .'</li>';
     }
     echo Nav::widget(
         [
             'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => $menuItems,
+            'items'   => $menuItems,
         ]
     );
     NavBar::end();
     ?>
 
-    <div class="container-fluid">
+	<div class="container-fluid">
         <?= Breadcrumbs::widget(
             [
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'links'    => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 'homeLink' => false,
             ]
         ) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
+	</div>
 </div>
 
 <footer class="footer">
-    <div class="container-fluid">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+	<div class="container-fluid">
+		<p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
-        <p class="pull-right">Developed by <?
+		<p class="pull-right">Developed by <?
             /*= Yii::powered() */ ?>
             <?= Html::a('Maroder', 'https://vk.com/kashik_roman', ['class' => 'profile-link']) ?></p>
-    </div>
+	</div>
 </footer>
 
 <?php
@@ -207,12 +220,12 @@ $this->endBody() ?>
 <?php
 if (Yii::$app->user->can('permissionAdmin')) {
     $this->registerCss(
-        "@media (min-width: 767px) and (max-width: 855px)
+        "@media (min-width: 767px) and (max-width: 1090px)
 {
     wrap > .container,
     .wrap > .container-fluid
     {
-        padding: 120px 15px 20px;
+        padding: 185px 15px 20px;
     }
 }"
     );

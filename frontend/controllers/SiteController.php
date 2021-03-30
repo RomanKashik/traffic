@@ -2,11 +2,16 @@
 
 namespace frontend\controllers;
 
+use commom\models\ResendVerificationEmailForm;
 use commom\models\ResetPasswordForm;
-use common\models\ResendVerificationEmailForm ;
+use common\models\Order;
+use common\models\OrderSearch;
+use common\models\Pack;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -39,8 +44,8 @@ SiteController extends Controller
                     ],
                     [
 //                        'actions' => ['logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -106,7 +111,6 @@ SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            
             if (Yii::$app->user->can('permissionDriver')) {
                 return $this->redirect(['client/index']);
             }
@@ -319,5 +323,48 @@ SiteController extends Controller
                 'model' => $model
             ]
         );
+    }
+
+    public function actionSearch($q)
+    {
+        $order_ids = Pack::find()->select(['order_id'])->where(['like', 'name', $q])
+            ->asArray()
+            ->all();
+
+        $ids = ArrayHelper::map($order_ids, 'order_id', 'order_id');
+
+        $model = Order::find()->with('clientReg', 'type')->where(['id' => $ids])->asArray()->all();
+
+//echo '<pre>';
+//var_dump($model);
+//die();
+        $dataProvider = new ArrayDataProvider(
+            [
+                'allModels'  => $model,
+                'pagination' => false,
+                'sort'       => [
+                    'attributes' => [
+                        'created_at'=>[
+                            'asc'=>[
+                                'created_at'=>SORT_ASC
+                            ],
+                            'desc' => [
+                                'created_at' => SORT_DESC,
+                            ],
+                        ],
+                        'type_of_package_id'=>[
+                            'asc'=>[
+                                'type_of_package_id'=>SORT_ASC
+                            ],
+                            'desc' => [
+                                'type_of_package_id' => SORT_DESC,
+                            ],
+                        ]
+                    ],
+                ]
+            ]
+        );
+
+        return $this->render('search', ['dataProvider' => $dataProvider, 'q' => $q]);
     }
 }

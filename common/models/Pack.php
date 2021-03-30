@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\behaviors\Total;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -24,6 +25,13 @@ class Pack extends ActiveRecord
     public function behaviors()
     {
         return [
+            [
+                'class'      => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
             'total' => [
                 'class' => Total::class,
             ]
@@ -45,7 +53,7 @@ class Pack extends ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 255,'min'=>1],
-            [['user_id'],'safe'],
+            [['user_id','created_at','updated_at'],'safe'],
             ['name',  'filter', 'filter'=> function($value){ return mb_strtolower($value);}],
             [['order_id', 'count', 'unit_id'], 'number'],
             [['name', 'count', 'unit_id'], 'required'],
@@ -65,6 +73,7 @@ class Pack extends ActiveRecord
             'name' => 'Наименование',
             'count' => 'Количество',
             'unit_id' => 'Ед.измерения',
+            'created_at'=>'Дата'
         ];
     }
 

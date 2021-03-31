@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use commom\models\ResendVerificationEmailForm;
 use commom\models\ResetPasswordForm;
 use common\models\Order;
-use common\models\OrderSearch;
 use common\models\Pack;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -335,9 +334,6 @@ SiteController extends Controller
 
         $model = Order::find()->with('clientReg', 'type')->where(['id' => $ids])->asArray()->all();
 
-//echo '<pre>';
-//var_dump($model);
-//die();
         $dataProvider = new ArrayDataProvider(
             [
                 'allModels'  => $model,

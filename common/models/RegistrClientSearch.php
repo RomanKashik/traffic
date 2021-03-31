@@ -22,7 +22,7 @@ class RegistrClientSearch extends RegistrClient
         return [
             [['id', 'client_id', 'count'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['client_article', 'client_name', 'client_carrier_id', 'status'], 'safe'],
+            [['client_article', 'client_name', 'client_carrier_id','client_carrier_article','client_city', 'status'], 'safe'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:d-m-Y'],
         ];
     }
@@ -52,6 +52,7 @@ class RegistrClientSearch extends RegistrClient
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => $query,
+                'pagination'=>false
             ]
         );
 
@@ -77,6 +78,8 @@ class RegistrClientSearch extends RegistrClient
         $query->andFilterWhere(['like', 'client_article', $this->client_article])
             ->andFilterWhere(['like', 'client_name', $this->client_name])
             ->andFilterWhere(['like', 'client_carrier_id', $this->client_carrier_id])
+            ->andFilterWhere(['like', 'client_carrier_article', $this->client_carrier_article])
+            ->andFilterWhere(['like', 'client_city', $this->client_city])
             ->andFilterWhere(['like', 'status', $this->status]);
         $query
             ->andFilterWhere(['>=', 'created_at', $this->date_from ? strtotime($this->date_from . ' 00:00:00') : null])

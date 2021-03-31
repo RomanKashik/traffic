@@ -1,4 +1,4 @@
-html,
+﻿html,
 body {
     height: 100%;
 }
@@ -270,15 +270,17 @@ ol.instruction> li:before {
 .form-search {
     padding: 10px 15px;
 }
+
+.form-group{
+
+margin-bottom:0!important;
+}
+
 .form-group.search {
     display: grid;
     grid-template-columns: 80% auto;
     grid-template-rows: auto;
 }
-
-/*.table.detail-view td{
-    width: 50%;
-}*/
 
 .table.detail-view{
 

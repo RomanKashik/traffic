@@ -72,6 +72,9 @@ class OrderSearch extends Order
         $query = Order::find();
         $query->joinWith(['client']);
         $query->joinWith(['clientReg']);
+        if (\Yii::$app->user->can('permissionStock')) {
+        $query->where(['order.status'=>'оформлен']);
+        }
 //        $query->joinWith(['packs']);
 
 

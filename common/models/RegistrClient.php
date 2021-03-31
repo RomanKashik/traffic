@@ -95,15 +95,17 @@ class RegistrClient extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                => 'ID',
-            'client_id'         => 'Клиент',
-            'client_article'    => 'Артикул',
-            'client_name'       => 'Клиент',
-            'client_carrier_id' => 'Перевозчик',
-            'count'             => 'Кол-во мест',
-            'status'            => 'Статус',
-            'created_at'        => 'Дата',
-            'updated_at'        => 'Дата',
+            'id'                     => 'ID',
+            'client_id'              => 'Клиент',
+            'client_article'         => 'Артикул',
+            'client_name'            => 'Клиент',
+            'client_carrier_id'      => 'Перевозчик',
+            'client_carrier_article' => 'Перевозчик',
+            'client_city'            => 'Город',
+            'count'                  => 'Кол-во мест',
+            'status'                 => 'Статус',
+            'created_at'             => 'Дата',
+            'updated_at'             => 'Дата',
         ];
     }
 
@@ -139,9 +141,10 @@ class RegistrClient extends \yii\db\ActiveRecord
             $client,
             'id',
             function ($data) {
-                return $data['name'] . ' '.'('. $data['article'].')';
+                return $data['name'].' '.'('.$data['article'].')';
             },
-            'article');
+            'article'
+        );
     }
 
 
@@ -209,11 +212,12 @@ class RegistrClient extends \yii\db\ActiveRecord
     /**
      * @param $id
      */
-    public function updateOrderCarrier($id){
-        Order::findAll(['user_id'=>$id]);
+    public function updateOrderCarrier($id)
+    {
+        Order::findAll(['user_id' => $id]);
         Order::updateAll(
             [
-                'carrier_id'    => $this->client_carrier_id,
+                'carrier_id' => $this->client_carrier_id,
 
             ],
             ['=', 'user_id', $id]

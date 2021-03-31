@@ -185,12 +185,12 @@ $this->params['breadcrumbs'][] = $this->title;; ?>
                     'format' => 'dd-mm-yyyy',
                 ],
 
-                'options' => [
-                    'style' => 'width:100px'
-                ],
-                'options2' => [
-                    'style' => 'width:100px'
-                ]
+//                'options' => [
+//                    'style' => 'width:100px'
+//                ],
+//                'options2' => [
+//                    'style' => 'width:100px'
+//                ]
             ]
         ),
         'format' => ['date', 'dd-MM-Y'],

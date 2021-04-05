@@ -183,6 +183,7 @@ class Order extends ActiveRecord
         return Order::find()
             ->select(['COUNT(order.type_of_package_id)  as count,  type_of_package.name'])
             ->join('LEFT JOIN', 'type_of_package', 'type_of_package.id = order.type_of_package_id')
+            ->where(['status'=>'оформлен'])
             ->groupBy('type_of_package.id')->asArray()->all();
     }
 
@@ -195,8 +196,10 @@ class Order extends ActiveRecord
     public function getTotalValues()
     {
         return Order::find()->select(
-            'SUM(cost) as cost, AVG(cost) as average_cost, SUM(size) as size,SUM(weight) as weight, COUNT(type_of_package_id) as count_package'
-        )->asArray()
+            'SUM(cost) as cost, AVG(cost) as average_cost, SUM(size) as size,SUM(weight) as weight, COUNT(type_of_package_id) as count_package,status'
+        )
+            ->where(['status'=>'оформлен'])
+            ->asArray()
             ->all();
     }
 

@@ -2,11 +2,12 @@
 
 namespace frontend\controllers;
 
-use common\models\Client;
-use common\models\Order;
+
 use Yii;
 use common\models\Pack;
 use common\models\PackSearch;
+use common\models\Client;
+use common\models\Order;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -146,7 +147,7 @@ class PackController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    /*public function actionStatistick()
+    public function actionStatistick()
     {
         $order  = new Order();
         $client = new Client();
@@ -159,13 +160,11 @@ class PackController extends Controller
 
         return $this->render(
             'statistick',
-            [
                 [
                     'totalValue'   => $totalValue,
                     'typePackages' => $typePackages,
                     'clients'      => $clients,
                 ]
-            ]
         );
-    }*/
+    }
 }

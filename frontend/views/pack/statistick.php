@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $typePackages \backend\controllers\AppAdmin */
+/* @var $typePackages \frontend\controllers\PackController */
 /* @var $clients \frontend\controllers\PackController */
 /* @var $totalPack \frontend\controllers\PackController */
 /* @var $totalValue \frontend\controllers\PackController */

@@ -157,11 +157,13 @@ $this->beginBody() ?>
                     'submenuTemplate' => "\n<ul id='sidebar3' class='nav collapse'>\n{items}\n</ul>\n",
 
                 ];
-            /*$menuItems[] =
+        }
+        if (Yii::$app->user->can('permissionAdmin')) {
+            $menuItems[] =
                 [
                     'label' => 'Статистика',
                     'url'   => ['/pack/statistick'],
-                ];*/
+                ];
         }
         $menuItems[] = '<li>'
             .Html::beginForm(['/site/search'], 'get',['class'=>'form-search'])

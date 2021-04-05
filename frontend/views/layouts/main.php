@@ -219,19 +219,7 @@ $this->endBody() ?>
 </html>
 
 
-<?php
-if (Yii::$app->user->can('permissionAdmin')) {
-    $this->registerCss(
-        "@media (min-width: 767px) and (max-width: 1090px)
-{
-    wrap > .container,
-    .wrap > .container-fluid
-    {
-        padding: 185px 15px 20px;
-    }
-}"
-    );
-}; ?>
+
 
 <?php
 $this->endPage() ?>

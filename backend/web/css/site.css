@@ -168,3 +168,8 @@ a.desc:after {
     padding: 0 15px!important;
     margin-top: -1px;
 }
+
+.table.detail-view{
+
+    table-layout: fixed;
+}

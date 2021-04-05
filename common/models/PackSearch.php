@@ -48,6 +48,7 @@ class PackSearch extends Pack
     {
         $query = Pack::find()->select(['name,unit_id, SUM(count) as count'])->groupBy(['name']);
         $query->joinWith(['order']);
+        $query->where(['and',['order.status'=>'оформлен']]);
 
 //        $query->joinWith(['client']);
         // add conditions that should always apply here

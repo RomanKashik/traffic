@@ -332,7 +332,8 @@ SiteController extends Controller
 
         $ids = ArrayHelper::map($order_ids, 'order_id', 'order_id');
 
-        $model = Order::find()->with('clientReg', 'type')->where(['id' => $ids])->asArray()->all();
+        $model = Order::find()->with('clientReg', 'type')->where(['and',['id' => $ids,'status'=>'оформлен']])->asArray()
+->all();
 
         $dataProvider = new ArrayDataProvider(
             [

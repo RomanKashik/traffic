@@ -47,7 +47,23 @@ $this->params['breadcrumbs'][] = $this->title;; ?>
     [
         'attribute' => 'article',
         'label' => 'Артикул',
-        'filter' => false,
+       /* 'filter' => false,*/
+        'filter'    => Select2::widget(
+            [
+                'model'         => $searchModel,
+                'attribute'     => 'article',
+                'data'          => $searchModel->getClientOrderData('client_article', 'client_article'),
+                'value'         => $searchModel->clientReg->client_article,
+                'options'       => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'По артиклу'
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+//                    'min-width'  => '125px'
+                ]
+            ]
+        ),
         'contentOptions' => ['style' => 'text-align:center;'],
         'value' => function ($data) {
             return $data->clientReg->client_article;

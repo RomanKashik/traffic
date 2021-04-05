@@ -45,7 +45,7 @@ class Order extends ActiveRecord
     public const STATUS_ISSUED = 'оформлен';
     public const STATUS_CHECKED = 'готов к выдаче';
     public const STATUS_ISSUED_IN_WAREHOUSE = 'оформлен на складе';
-    protected const RATE = '20000';
+    protected const RATE = '21000';
 
 
     public function behaviors()

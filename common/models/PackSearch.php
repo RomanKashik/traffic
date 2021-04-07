@@ -46,8 +46,8 @@ class PackSearch extends Pack
      */
     public function search($params)
     {
-        $query = Pack::find()->select(['name,unit_id, SUM(count) as count'])->groupBy(['name']);
-        $query->joinWith(['order']);
+        $query = Pack::find()->select(['pack.name,unit_id, SUM(count) as count'])->groupBy(['name']);
+        $query->joinWith(['order','unit']);
         $query->where(['and',['order.status'=>'оформлен']]);
 
 //        $query->joinWith(['client']);

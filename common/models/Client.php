@@ -106,7 +106,7 @@ class Client extends ActiveRecord
      */
     public function getClientQueryData($column_name): array
     {
-        $data = Client::find()->select([$column_name])->all();
+        $data = Client::find()->asArray()->all();
         return ArrayHelper::map($data, $column_name, $column_name);
     }
 

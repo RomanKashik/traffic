@@ -46,6 +46,7 @@ class RegistrClientSearch extends RegistrClient
     public function search($params)
     {
         $query = RegistrClient::find();
+        $query->joinWith('carrier');
         $query->where(['or',['status'=>['оформлен на складе','принят']]]);
 
 

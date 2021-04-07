@@ -127,6 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         ]
                     ),
+
                     'footer'    => 'Итого'
                 ],
                 [

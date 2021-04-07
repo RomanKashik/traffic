@@ -174,7 +174,7 @@ class Order extends ActiveRecord
     }
 
     /**
-     * Данные о типах упаовки и их количестве
+     * Данные о типах упаковки и их количестве
      *
      * @return array
      */
@@ -184,7 +184,7 @@ class Order extends ActiveRecord
             ->select(['COUNT(order.type_of_package_id)  as count,  type_of_package.name'])
             ->join('LEFT JOIN', 'type_of_package', 'type_of_package.id = order.type_of_package_id')
             ->where(['status'=>'оформлен'])
-            ->groupBy('type_of_package.id')->asArray()->all();
+            ->groupBy('type_of_package.id')->asArray()->one();
     }
 
     /**
@@ -325,7 +325,7 @@ class Order extends ActiveRecord
      */
     public function getClientOrderData($column_name_like, $column_name = 'id')
     {
-        $data = Order::find()->with('clientReg')->asArray()->all();
+        $data = Order::find()->joinWith('clientReg')->asArray()->all();
         return ArrayHelper::map($data, 'clientReg.'.$column_name, 'clientReg.'.$column_name_like);
     }
 

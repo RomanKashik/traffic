@@ -41,24 +41,30 @@ class OrderController extends Controller
                 'rules' => [
                     [
                         'allow'   => true,
+//                        'actions' => ['multiple-check'],
+                        'roles'   => ['admin'],
+                    ],
+                    [
+                        'allow'   => true,
                         'actions' => ['index', 'view', 'create', 'update', 'product', 'delete'],
-                        'roles'   => ['stockman', 'stockmanDPR', 'admin'],
+                        'roles'   => ['stockman', 'stockmanDPR'],
                     ],
                     [
                         'allow'   => true,
                         'actions' => ['multiple-check'],
-                        'roles'   => ['stockmanDPR', 'admin'],
+                        'roles'   => ['stockmanDPR'],
                     ],
                     [
                         'allow'   => true,
                         'actions' => ['client'],
-                        'roles'   => ['manager', 'admin'],
+                        'roles'   => ['manager'],
                     ],
                     [
                         'allow'   => true,
                         'actions' => ['index', 'view'],
                         'roles'   => ['driver'],
                     ],
+
                 ],
 
             ],
